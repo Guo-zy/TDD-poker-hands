@@ -530,6 +530,18 @@ public class DemoTest {
     Assertions.assertEquals("white wins with high card T", res);
   }
 
+  @Test
+  public void should_return_white_wins_with_pair_of_5_when_calculate_winner_given_black_with_33678_and_white_with_55678() {
+    //given
+    String black = "3S 3H 6C 7D 8S";
+    String white = "5H 5D 7S 6H 8H";
+
+    //when
+    String res = demo.calculateWinner(black, white);
+
+    //then
+    Assertions.assertEquals("white wins with pair of 5", res);
+  }
 
 }
 

@@ -71,7 +71,6 @@ public class Demo {
             whitePokerHands.add(pokerHandsCard.get(s.substring(0, 1)));
             whitePokerColor.add(s.substring(1));
         }
-
         Collections.sort(blackPokerHands);
         Collections.sort(whitePokerHands);
     }
@@ -134,12 +133,12 @@ public class Demo {
         boolean isStraight = true;
         StringBuilder straightCardType = new StringBuilder();
         for (int i = 0; i < pokerHands.size() - 1; i++) {
-            straightCardType.append(String.valueOf(pokerHands.get(i)));
+            straightCardType.append(pokerHands.get(i));
             if (pokerHands.get(i) + 1 != pokerHands.get(i + 1)) {
                 isStraight = false;
             }
             if (i == pokerHands.size() - 2) {
-                straightCardType.append(String.valueOf(pokerHands.get(i + 1)));
+                straightCardType.append(pokerHands.get(i + 1));
             }
         }
         if (pokerHands.get(0) == 1 && pokerHands.get(1) == 10 && pokerHands.get(2) == 11 && pokerHands.get(3) == 12
@@ -214,15 +213,6 @@ public class Demo {
     }
 
 
-    public boolean isPokerHandsEquals() {
-        for (int i = 0; i < COUNT - 1; i++) {
-            if (!whitePokerHands.get(i).equals(blackPokerHands.get(i))) {
-                return false;
-            }
-        }
-        return true;
-    }
-
 
     private boolean isTie(List<Integer> blackPokerHands, List<Integer> whitePokerHands) {
         for (int i = 0; i < blackPokerHands.size(); i++) {
@@ -261,6 +251,20 @@ public class Demo {
         return null;
     }
 
+    private String calculateWinnerOfPair(List<Integer> blackPokerHands, List<Integer> whitePokerHands) {
+        int blackPairNum = 0;
+        int whitePairNum = 0;
+        for (int i = 0; i< blackPokerHands.size() - 1; i++) {
+            if(blackPokerHands.get(i).equals(blackPokerHands.get(i+1))){
+                blackPairNum = blackPokerHands.get(i);
+            }
+            if (whitePokerHands.get(i).equals(whitePokerHands.get(i+1))){
+                whitePairNum = whitePokerHands.get(i);
+            }
+        }
+        return blackPairNum > whitePairNum ? "black wins with pair of " + blackPairNum :"white wins with pair of " + whitePairNum;
+    }
+
     public String calculateWinner(String black, String white) {
 
         separateCardsAndSuits(black, white);
@@ -276,7 +280,9 @@ public class Demo {
             if (blackCard.getScore() == 1) {
                 return calculateWinnerOfHighCard(blackPokerHands, whitePokerHands);
             }
-
+            if (blackCard.getScore() == 2) {
+                return calculateWinnerOfPair(blackPokerHands, whitePokerHands);
+            }
         }
 
         if (blackCard.getScore() < whiteCard.getScore()) {
