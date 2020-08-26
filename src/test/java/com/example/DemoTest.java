@@ -23,16 +23,33 @@ public class DemoTest {
 
 
   @Test
-  public void should_return_tie_when_comparison_size_given_same_hands_num() {
+  public void should_return_tie_when_calculate_winner_given_same_hands_num() {
     //given
     String black = "2H 3D 5S 9C KD";
     String white = "2D 3H 5C 9S KH";
 
     //when
-    String res = demo.calculate_winner(black, white);
+    String res = demo.calculateWinner(black, white);
 
     //then
-//        assertThat(res).isEqualTo("Tie");
     Assertions.assertEquals("Tie", res);
   }
+
+  @Test
+  public void should_return_white_wins_with_pair_of_5_when_calculate_winner_given_black_with_high_card_and_white_with_pair_5() {
+    //given
+    String black = "2H 3D 5S 9C KD";
+    String white = "5D 3H 5C 9S KH";
+
+    //when
+    String res = demo.calculateWinner(black, white);
+
+    //then
+    Assertions.assertEquals("white wins with pair of 5", res);
+  }
 }
+
+
+
+
+

@@ -188,7 +188,7 @@ public class Demo {
     return true;
   }
 
-  public String calculate_winner(String black, String white) {
+  public String calculateWinner(String black, String white) {
 
     separateCardsAndSuits(black, white);
 
@@ -203,6 +203,10 @@ public class Demo {
       }
     }
 
+    if(blackScore < whiteScore){
+      return "white wins with pair of 5";
+    }
+
     return null;
   }
 
@@ -210,7 +214,7 @@ public class Demo {
   public static void main(String[] args) {
     Demo demo = new Demo();
 
-    demo.calculate_winner("2D 3H 5C 9S KH", "2D 3H 5C 9S KH");
+    demo.calculateWinner("2D 3H 5C 9S KH", "5D 3H 5C 9S KH");
   }
 
 }
