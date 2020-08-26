@@ -374,6 +374,20 @@ public class DemoTest {
     Assertions.assertEquals("white wins with straight flush of 3H4H5H6H7H", res);
   }
 
+  @Test
+  public void should_return_white_wins_with_flush_of_367TQ_with_diamonds_when_calculate_winner_given_black_with_straight_and_white_with_flush_of_367TQ() {
+    //given
+    String black = "3H 4D 5S 6C 7H";
+    String white = "3D 6D 7D TD QD";
+
+    //when
+    String res = demo.calculateWinner(black, white);
+
+    //then
+    Assertions.assertEquals("white wins with flush of 3D6D7DTDQD", res);
+  }
+
+
 
 }
 
