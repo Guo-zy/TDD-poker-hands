@@ -56,7 +56,6 @@ public class DemoTest {
 
     //when
     String res = demo.calculateWinner(black, white);
-
     //then
     Assertions.assertEquals("white wins with two pairs of 5 and 9", res);
   }
@@ -506,7 +505,7 @@ public class DemoTest {
 
 
   @Test
-  public void should_return_white_wins_with_high_card_A_when_calculate_winner_given_black_with_high_card_K_and_white_with_high_card_A() {
+  public void should_return_white_wins_with_high_card_A_when_calculate_winner_given_black_with_high_card_2359K_and_white_with_high_card_2687A() {
     //given
     String black = "2S 3H 5C 9D KS";
     String white = "2H 6D 8S 7C AH";
@@ -518,6 +517,18 @@ public class DemoTest {
     Assertions.assertEquals("white wins with high card A", res);
   }
 
+  @Test
+  public void should_return_white_wins_with_high_card_T_when_calculate_winner_given_black_with_high_card_24678_and_white_with_high_card_3579T() {
+    //given
+    String black = "2S 4H 6C 7D 8S";
+    String white = "3H 5D 7S 9C TH";
+
+    //when
+    String res = demo.calculateWinner(black, white);
+
+    //then
+    Assertions.assertEquals("white wins with high card T", res);
+  }
 
 
 }
