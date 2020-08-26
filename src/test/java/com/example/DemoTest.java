@@ -29,7 +29,7 @@ public class DemoTest {
     String white = "2D 3H 5C 9S KH";
 
     //when
-    String res = demo. calculate_winner(black, white);
+    String res = demo.calculate_winner(black, white);
 
     //then
 //        assertThat(res).isEqualTo("Tie");
