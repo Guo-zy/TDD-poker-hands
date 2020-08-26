@@ -139,6 +139,19 @@ public class DemoTest {
     Assertions.assertEquals("white wins with straight flush of 3H4H5H6H7H", res);
   }
 
+  @Test
+  public void should_return_white_wins_with_two_pairs_when_calculate_winner_given_black_with_pair_and_white_with_two_pairs() {
+    //given
+    String black = "2H 2D 5S 9C KD";
+    String white = "5D 9H 5C 9S KH";
+
+    //when
+    String res = demo.calculateWinner(black, white);
+
+    //then
+    Assertions.assertEquals("white wins with two pairs of 5 and 9", res);
+  }
+
 }
 
 
