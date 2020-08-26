@@ -413,6 +413,19 @@ public class DemoTest {
     Assertions.assertEquals("white wins with four of a kind of 3", res);
   }
 
+  @Test
+  public void should_return_white_wins_with_straight_flush_of_34567_with_diamonds_when_calculate_winner_given_black_with_straight_and_white_with_straight_flush_of_34567_with_diamonds() {
+    //given
+    String black = "4C 5D 6S 7C 8D";
+    String white = "3H 4H 5H 6H 7H";
+
+    //when
+    String res = demo.calculateWinner(black, white);
+
+    //then
+    Assertions.assertEquals("white wins with straight flush of 3H4H5H6H7H", res);
+  }
+
 
 }
 
