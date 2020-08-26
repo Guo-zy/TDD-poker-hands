@@ -11,8 +11,6 @@ public class Demo {
 
   private static final Integer COUNT = 5;
 
-  private Integer blackScore = 0;
-  private Integer whiteScore = 0;
 
   private List<Integer> blackPokerHands = new ArrayList<>(COUNT);
   private List<Integer> whitePokerHands = new ArrayList<>(COUNT);
@@ -89,7 +87,7 @@ public class Demo {
     for (int i = 0; i < pokerHands.size(); i++) {
       for (int j = i + 1; j < pokerHands.size(); j++) {
         if (pokerHands.get(i).equals(pokerHands.get(j))) {
-          playerCard.setType(" with pair of " + String.valueOf(pokerHands.get(i)));
+          playerCard.setType("with pair of " + String.valueOf(pokerHands.get(i)));
           score = 2;
         }
       }
@@ -113,7 +111,7 @@ public class Demo {
         }
       }
       if (pairNum == 2) {
-        playerCard.setType(" with two pairs of " + firstCount + " and " + secondCount);
+        playerCard.setType("with two pairs of " + firstCount + " and " + secondCount);
         score = 3;
         break;
       }
@@ -128,7 +126,7 @@ public class Demo {
         }
       }
       if (num == 3) {
-        playerCard.setType("with Three of a Kind of :" + String.valueOf(pokerHands.get(i)));
+        playerCard.setType("with three of a kind of " + String.valueOf(pokerHands.get(i)));
         score = 4;
         break;
       }
@@ -238,13 +236,7 @@ public class Demo {
     }
 
     if (blackCard.getScore() < whiteCard.getScore()) {
-      if (whiteCard.getScore() == 2) {
-
-        return "white wins" + whiteCard.getType() ;
-      }
-      if (whiteCard.getScore() == 3) {
-        return "white wins" + whiteCard.getType();
-      }
+        return "white wins " + whiteCard.getType() ;
     }
 
     return null;
@@ -254,7 +246,7 @@ public class Demo {
   public static void main(String[] args) {
     Demo demo = new Demo();
 
-    demo.calculateWinner("2D 3H 5C 9S KH", "5D 3H 5C 9S KH");
+    demo.calculateWinner("2D 3H 5C 9S KH", "5D 3H 5C 5S KH");
   }
 
 }
