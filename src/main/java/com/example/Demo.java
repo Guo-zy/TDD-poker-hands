@@ -63,7 +63,6 @@ public class Demo {
     whitePokerHands.clear();
     whitePokerColor.clear();
 
-
     String[] blacks = black.split(" ");
     String[] whites = white.split(" ");
     for (String s : blacks) {
@@ -80,13 +79,17 @@ public class Demo {
   }
 
 
-  public Integer calculateScore(List<Integer> pokerHands, List<String> pokerColors) {
+  public PlayerCard calculateScore(List<Integer> pokerHands, List<String> pokerColors) {
+
+    PlayerCard playerCard = new PlayerCard();
+
     Integer score = 1;
 
     // pair
     for (int i = 0; i < pokerHands.size(); i++) {
       for (int j = i + 1; j < pokerHands.size(); j++) {
         if (pokerHands.get(i).equals(pokerHands.get(j))) {
+          playerCard.setType(" with pair of " + String.valueOf(pokerHands.get(i)));
           score = 2;
         }
       }
@@ -97,13 +100,20 @@ public class Demo {
 
     // two pair
     int pairNum = 0;
+    int firstCount = 0 , secondCount = 0;
     for (int i = 0; i < pokerHands.size(); i++) {
       for (int j = i + 1; j < pokerHands.size(); j++) {
-        if (pokerHands.get(i).equals(pokerHands.get(j))) {
+        if (pairNum == 1 && pokerHands.get(i).equals(pokerHands.get(j))) {
+          secondCount = pokerHands.get(i);
+          pairNum++;
+        }
+        if (pairNum == 0 && pokerHands.get(i).equals(pokerHands.get(j))) {
+          firstCount = pokerHands.get(i);
           pairNum++;
         }
       }
       if (pairNum == 2) {
+        playerCard.setType(" with two pairs of " + firstCount + " and " + secondCount);
         score = 3;
         break;
       }
@@ -118,6 +128,7 @@ public class Demo {
         }
       }
       if (num == 3) {
+        playerCard.setType("with Three of a Kind of :" + String.valueOf(pokerHands.get(i)));
         score = 4;
         break;
       }
@@ -125,28 +136,36 @@ public class Demo {
 
     //Straight
     boolean isStraight = true;
+    String straightCardType = "";
     for (int i = 0; i < pokerHands.size() - 1; i++) {
+      straightCardType += String.valueOf(pokerHands.get(i)) + " ";
       if (!pokerHands.get(i).equals(pokerHands.get(i + 1))) {
         isStraight = false;
       }
     }
     if (pokerHands.get(0) == 1 && pokerHands.get(1) == 10 && pokerHands.get(2) == 11 && pokerHands.get(3) == 12
         && pokerHands.get(4) == 13) {
+      straightCardType = "1 10 11 12 13";
       isStraight = true;
     }
     if (isStraight) {
+      playerCard.setType("with Straight of :" + straightCardType);
       score = 5;
     }
 
     //Flush
     boolean isFlush = false;
     int front = 0, end = COUNT - 1;
+    String flushCardType = "";
+    String color = pokerColors.get(front);
     while (front <= end) {
       if (front == end && pokerColors.get(front).equals(pokerColors.get(0))) {
+        playerCard.setType("with Flush of:" + flushCardType);
         isFlush = true;
         score = 6;
       } else {
         if (pokerColors.get(front).equals(pokerColors.get(end))) {
+          flushCardType += String.valueOf((pokerColors.get(front))) + color;
           front++;
           end--;
         } else {
@@ -155,11 +174,13 @@ public class Demo {
       }
     }
 
-    //Full House   3 3 3 5 5    &&  3 3 5 5 5
+    //Full House
     if (pokerHands.get(0).equals(pokerHands.get(2)) && pokerHands.get(3).equals(pokerHands.get(COUNT - 1))) {
+      playerCard.setType("with Full House of :" + pokerHands.get(0) + " over " + pokerHands.get(3));
       score = 7;
     }
     if (pokerHands.get(2).equals(pokerHands.get(COUNT - 1)) && pokerHands.get(0).equals(pokerHands.get(1))) {
+      playerCard.setType("with Full House of :" + pokerHands.get(2) + " over " + pokerHands.get(0));
       score = 7;
     }
 
@@ -172,6 +193,7 @@ public class Demo {
         }
       }
       if (num == 4) {
+        playerCard.setType("with Four of a Kind of : " + pokerHands.get(i));
         score = 8;
         break;
       }
@@ -179,10 +201,14 @@ public class Demo {
 
     //Straight flush
     if (isStraight && isFlush) {
+      playerCard.setType("with Straight flush of : " + flushCardType);
       score = 9;
     }
+    playerCard.setScore(score);
+    playerCard.setMaxNum(pokerHands.get(COUNT - 1));
 
-    return score;
+
+    return playerCard;
   }
 
 
@@ -198,31 +224,26 @@ public class Demo {
   public String calculateWinner(String black, String white) {
 
     separateCardsAndSuits(black, white);
+    PlayerCard blackCard = calculateScore(blackPokerHands, blackPokerColor);
+    PlayerCard whiteCard = calculateScore(whitePokerHands, whitePokerColor);
 
-    blackScore = calculateScore(blackPokerHands, blackPokerColor);
-    whiteScore = calculateScore(whitePokerHands, whitePokerColor);
+    System.out.println( whiteCard.getType());
 
-    if (blackScore.equals(whiteScore)) {
-      if (blackScore == 1) {
-        if (isPokerHandsEquals()) {
+    if (blackCard.getScore().equals(whiteCard.getScore())) {
+      if (blackCard.getScore() == 1) {
+        if(blackCard.getMaxNum().equals(whiteCard.getMaxNum())){
           return "Tie";
         }
       }
     }
 
-    if (blackScore < whiteScore) {
-      if (whiteScore == 2) {
-        int winNum = 0;
-        for (int i = 0; i < COUNT - 1; i++) {
-          if (whitePokerHands.get(i).equals(whitePokerHands.get(i + 1))) {
-            winNum = whitePokerHands.get(i);
-            break;
-          }
-        }
-        return "white wins with pair of " + String.valueOf(winNum);
+    if (blackCard.getScore() < whiteCard.getScore()) {
+      if (whiteCard.getScore() == 2) {
+
+        return "white wins" + whiteCard.getType() ;
       }
-      if (whiteScore == 3) {
-       return "white wins with two pairs: 5 and 9";
+      if (whiteCard.getScore() == 3) {
+        return "white wins" + whiteCard.getType();
       }
     }
 

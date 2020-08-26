@@ -58,7 +58,7 @@ public class DemoTest {
     String res = demo.calculateWinner(black, white);
 
     //then
-    Assertions.assertEquals("white wins with two pairs: 5 and 9", res);
+    Assertions.assertEquals("white wins with two pairs of 5 and 9", res);
   }
 
 }
