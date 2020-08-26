@@ -181,11 +181,11 @@ public class Demo {
 
     //Full House
     if (pokerHands.get(0).equals(pokerHands.get(2)) && pokerHands.get(3).equals(pokerHands.get(COUNT - 1))) {
-      playerCard.setType("with Full House of :" + pokerHands.get(0) + " over " + pokerHands.get(3));
+      playerCard.setType("with full house of " + pokerHands.get(0) + " over " + pokerHands.get(3));
       score = 7;
     }
     if (pokerHands.get(2).equals(pokerHands.get(COUNT - 1)) && pokerHands.get(0).equals(pokerHands.get(1))) {
-      playerCard.setType("with Full House of :" + pokerHands.get(2) + " over " + pokerHands.get(0));
+      playerCard.setType("with full house of " + pokerHands.get(2) + " over " + pokerHands.get(0));
       score = 7;
     }
 

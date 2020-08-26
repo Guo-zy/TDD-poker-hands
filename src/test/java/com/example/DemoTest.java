@@ -88,7 +88,7 @@ public class DemoTest {
   }
 
   @Test
-  public void should_return_white_wins_with_flush_of_367TQ_with_diamonds_when_calculate_winner_given_black_with_high_card_and_white_with_straight_of_367TQ() {
+  public void should_return_white_wins_with_flush_of_367TQ_with_diamonds_when_calculate_winner_given_black_with_high_card_and_white_with_flush_of_367TQ() {
     //given
     String black = "2H 3D 5S 9C KD";
     String white = "3D 6D 7D TD QD";
@@ -98,6 +98,19 @@ public class DemoTest {
 
     //then
     Assertions.assertEquals("white wins with flush of 3D6D7DTDQD", res);
+  }
+
+  @Test
+  public void should_return_white_wins_with_full_house_of_33553_with_diamonds_when_calculate_winner_given_black_with_high_card_and_white_with_full_house_of_33553() {
+    //given
+    String black = "2H 3D 5S 9C KD";
+    String white = "3H 3D 5S 5C 3D";
+
+    //when
+    String res = demo.calculateWinner(black, white);
+
+    //then
+    Assertions.assertEquals("white wins with full house of 3 over 5", res);
   }
 
 }
