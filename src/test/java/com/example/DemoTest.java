@@ -282,6 +282,19 @@ public class DemoTest {
     Assertions.assertEquals("white wins with full house of 3 over 5", res);
   }
 
+  @Test
+  public void should_return_white_wins_with_4_of_a_kind_of_3_with_diamonds_when_calculate_winner_given_black_with_two_pairs_and_white_with_4_of_a_kind_of_3() {
+    //given
+    String black = "2H 2D 9S 9C KD";
+    String white = "3H 3D 3S 3C KH";
+
+    //when
+    String res = demo.calculateWinner(black, white);
+
+    //then
+    Assertions.assertEquals("white wins with four of a kind of 3", res);
+  }
+
 }
 
 
