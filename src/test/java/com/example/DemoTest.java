@@ -505,19 +505,19 @@ public class DemoTest {
   }
 
 
-//  @Test
-//  public void should_return_white_wins_with_high_card_A_when_calculate_winner_given_black_with_high_card_K_and_white_with_high_card_A() {
-//    //given
-//    String black = "2S 3H 5C 9D KS";
-//    String white = "2H 6D 8S 7C AH";
-//
-//    //when
-//    String res = demo.calculateWinner(black, white);
-//
-//    //then
-//    Assertions.assertEquals("white wins with high card A", res);
-//  }
-//
+  @Test
+  public void should_return_white_wins_with_high_card_A_when_calculate_winner_given_black_with_high_card_K_and_white_with_high_card_A() {
+    //given
+    String black = "2S 3H 5C 9D KS";
+    String white = "2H 6D 8S 7C AH";
+
+    //when
+    String res = demo.calculateWinner(black, white);
+
+    //then
+    Assertions.assertEquals("white wins with high card A", res);
+  }
+
 
 
 }

@@ -226,11 +226,31 @@ public class Demo {
 
   private boolean isTie(List<Integer> blackPokerHands, List<Integer> whitePokerHands) {
     for (int i = 0; i < blackPokerHands.size(); i++) {
-      if (blackPokerHands.get(i) != whitePokerHands.get(i)) {
+      if (!blackPokerHands.get(i).equals(whitePokerHands.get(i))) {
         return false;
       }
     }
     return true;
+  }
+
+  private String calculateWinnerOfHighCard(List<Integer> blackPokerHands, List<Integer> whitePokerHands){
+    if(blackPokerHands.get(0) == 1 && whitePokerHands.get(0) != 1){
+      return " black wins with high card A" ;
+    }
+    if(whitePokerHands.get(0) == 1 && blackPokerHands.get(0) != 1)
+    {
+      return "white wins with high card A";
+    }
+
+    for(int i = COUNT - 1 ; i >=0 ; i --){
+      if(blackPokerHands.get(i) > whitePokerHands.get(i)){
+        return "black wins with high card " + blackPokerHands.get(i);
+      }
+      if(whitePokerHands.get(i) > blackPokerHands.get(i) ){
+        return "white wins with high card " + whitePokerHands.get(i);
+      }
+    }
+    return null;
   }
 
   public String calculateWinner(String black, String white) {
@@ -245,7 +265,7 @@ public class Demo {
 
     if (blackCard.getScore().equals(whiteCard.getScore())) {
       if (blackCard.getScore() == 1) {
-
+          return calculateWinnerOfHighCard(blackPokerHands , whitePokerHands);
       }
 
     }
@@ -261,7 +281,7 @@ public class Demo {
   public static void main(String[] args) {
     Demo demo = new Demo();
 
-    demo.calculateWinner("2D 3H 5C 9S KH", "3H 3H 3H 3H 7H");
+    demo.calculateWinner("2S 3H 5C 9D KS", "2H 6D 8S 7C AH");
   }
 
 }
