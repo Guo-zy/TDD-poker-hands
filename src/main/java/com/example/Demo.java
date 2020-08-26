@@ -34,19 +34,19 @@ public class Demo {
     pokerHandsSituation.put("Straight flush", 9);
 
     pokerHandsCard = new HashMap<>();
-    pokerHandsSituation.put("A", 1);
-    pokerHandsSituation.put("2", 2);
-    pokerHandsSituation.put("3", 3);
-    pokerHandsSituation.put("4", 4);
-    pokerHandsSituation.put("5", 5);
-    pokerHandsSituation.put("6", 6);
-    pokerHandsSituation.put("7", 7);
-    pokerHandsSituation.put("8", 8);
-    pokerHandsSituation.put("9", 9);
-    pokerHandsSituation.put("T", 10);
-    pokerHandsSituation.put("J", 11);
-    pokerHandsSituation.put("Q", 12);
-    pokerHandsSituation.put("K", 13);
+    pokerHandsCard.put("A", 1);
+    pokerHandsCard.put("2", 2);
+    pokerHandsCard.put("3", 3);
+    pokerHandsCard.put("4", 4);
+    pokerHandsCard.put("5", 5);
+    pokerHandsCard.put("6", 6);
+    pokerHandsCard.put("7", 7);
+    pokerHandsCard.put("8", 8);
+    pokerHandsCard.put("9", 9);
+    pokerHandsCard.put("T", 10);
+    pokerHandsCard.put("J", 11);
+    pokerHandsCard.put("Q", 12);
+    pokerHandsCard.put("K", 13);
   }
 
 
@@ -64,11 +64,11 @@ public class Demo {
     String[] blacks = black.split(" ");
     String[] whites = white.split(" ");
     for (String s : blacks) {
-      blackPokerHands.add(pokerHandsSituation.get(s.substring(0, 1)));
+      blackPokerHands.add(pokerHandsCard.get(s.substring(0, 1)));
       blackPokerColor.add(s.substring(1));
     }
     for (String s : whites) {
-      whitePokerHands.add(pokerHandsSituation.get(s.substring(0, 1)));
+      whitePokerHands.add(pokerHandsCard.get(s.substring(0, 1)));
       whitePokerColor.add(s.substring(1));
     }
 
@@ -155,25 +155,29 @@ public class Demo {
     }
 
     //Flush
-    boolean isFlush = false;
-    int front = 0, end = COUNT - 1;
+    boolean isFlush = true;
     String flushCardType = "";
-    String color = pokerColors.get(front);
-    while (front <= end) {
-      if (front == end && pokerColors.get(front).equals(pokerColors.get(0))) {
-        playerCard.setType("with Flush of:" + flushCardType);
-        isFlush = true;
-        score = 6;
-      } else {
-        if (pokerColors.get(front).equals(pokerColors.get(end))) {
-          flushCardType += String.valueOf((pokerColors.get(front))) + color;
-          front++;
-          end--;
-        } else {
-          break;
+    String color = pokerColors.get(0);
+    for(int i = 0; i < pokerColors.size(); i ++){
+        if(!pokerColors.get(i).equals(color)){
+            isFlush = false;
+            break;
+        }
+    }
+    if(isFlush){
+      for(int num : pokerHands) {
+        for (String getkey : pokerHandsCard.keySet()) {
+          if ( pokerHandsCard.get(getkey).equals(num)) {
+            flushCardType += getkey + color;
+
+          }
         }
       }
+      score = 6;
+      playerCard.setType("with flush of " + flushCardType);
     }
+
+
 
     //Full House
     if (pokerHands.get(0).equals(pokerHands.get(2)) && pokerHands.get(3).equals(pokerHands.get(COUNT - 1))) {
@@ -250,7 +254,7 @@ public class Demo {
   public static void main(String[] args) {
     Demo demo = new Demo();
 
-    demo.calculateWinner("2D 3H 5C 9S KH", "3D 4H 5C 6S 7H");
+    demo.calculateWinner("2D 3H 5C 9S KH", "3D 6D 7D TD QD");
   }
 
 }
