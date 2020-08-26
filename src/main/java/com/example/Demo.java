@@ -136,18 +136,21 @@ public class Demo {
     boolean isStraight = true;
     String straightCardType = "";
     for (int i = 0; i < pokerHands.size() - 1; i++) {
-      straightCardType += String.valueOf(pokerHands.get(i)) + " ";
-      if (!pokerHands.get(i).equals(pokerHands.get(i + 1))) {
+      straightCardType += String.valueOf(pokerHands.get(i));
+      if (pokerHands.get(i) + 1 != pokerHands.get(i + 1)) {
         isStraight = false;
+      }
+      if(i == pokerHands.size() - 2) {
+        straightCardType += String.valueOf(pokerHands.get(i + 1));
       }
     }
     if (pokerHands.get(0) == 1 && pokerHands.get(1) == 10 && pokerHands.get(2) == 11 && pokerHands.get(3) == 12
         && pokerHands.get(4) == 13) {
-      straightCardType = "1 10 11 12 13";
+      straightCardType = "TJQKA";
       isStraight = true;
     }
     if (isStraight) {
-      playerCard.setType("with Straight of :" + straightCardType);
+      playerCard.setType("with straight of " + straightCardType);
       score = 5;
     }
 
@@ -225,6 +228,7 @@ public class Demo {
     PlayerCard blackCard = calculateScore(blackPokerHands, blackPokerColor);
     PlayerCard whiteCard = calculateScore(whitePokerHands, whitePokerColor);
 
+    System.out.println(whiteCard.getScore());
     System.out.println( whiteCard.getType());
 
     if (blackCard.getScore().equals(whiteCard.getScore())) {
@@ -246,7 +250,7 @@ public class Demo {
   public static void main(String[] args) {
     Demo demo = new Demo();
 
-    demo.calculateWinner("2D 3H 5C 9S KH", "5D 3H 5C 5S KH");
+    demo.calculateWinner("2D 3H 5C 9S KH", "3D 4H 5C 6S 7H");
   }
 
 }

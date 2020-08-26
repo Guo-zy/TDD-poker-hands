@@ -74,6 +74,19 @@ public class DemoTest {
     Assertions.assertEquals("white wins with three of a kind of 5", res);
   }
 
+  @Test
+  public void should_return_white_wins_with_straight_of_34567_when_calculate_winner_given_black_with_high_card_and_white_with_straight_of_34567() {
+    //given
+    String black = "2H 3D 5S 9C KD";
+    String white = "3D 4H 5C 6S 7H";
+
+    //when
+    String res = demo.calculateWinner(black, white);
+
+    //then
+    Assertions.assertEquals("white wins with straight of 34567", res);
+  }
+
 
 }
 
