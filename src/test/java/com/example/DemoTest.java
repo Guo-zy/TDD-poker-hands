@@ -582,6 +582,19 @@ public class DemoTest {
     Assertions.assertEquals("white wins with pair of max num is 6", res);
   }
 
+  @Test
+  public void should_return_white_wins_with_two_pairs_with_3366A_when_calculate_winner_given_black_with_3355A_and_white_with_3366A() {
+    //given
+      String black = "5S 5H 3C 3D AS";
+    String white = "6C 6D 3S 3H AH";
+
+    //when
+    String res = demo.calculateWinner(black, white);
+
+    //then
+    Assertions.assertEquals("white wins with two pairs of 3 and 6", res);
+  }
+
 }
 
 
