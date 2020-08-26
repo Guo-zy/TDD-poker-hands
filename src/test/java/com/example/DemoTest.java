@@ -47,6 +47,8 @@ public class DemoTest {
     //then
     Assertions.assertEquals("white wins with pair of 5", res);
   }
+
+
 }
 
 

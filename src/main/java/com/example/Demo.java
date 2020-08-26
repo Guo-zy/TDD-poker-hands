@@ -58,6 +58,12 @@ public class Demo {
 
 
   public void separateCardsAndSuits(String black, String white) {
+    blackPokerHands.clear();
+    blackPokerColor.clear();
+    whitePokerHands.clear();
+    whitePokerColor.clear();
+
+
     String[] blacks = black.split(" ");
     String[] whites = white.split(" ");
     for (String s : blacks) {
@@ -68,12 +74,13 @@ public class Demo {
       whitePokerHands.add(pokerHandsSituation.get(s.substring(0, 1)));
       whitePokerColor.add(s.substring(1));
     }
+
+    Collections.sort(blackPokerHands);
+    Collections.sort(whitePokerHands);
   }
 
 
   public Integer calculateScore(List<Integer> pokerHands, List<String> pokerColors) {
-
-    Collections.sort(pokerHands);
     Integer score = 1;
 
     // pair
@@ -203,8 +210,18 @@ public class Demo {
       }
     }
 
-    if(blackScore < whiteScore){
-      return "white wins with pair of 5";
+    if (blackScore < whiteScore) {
+      if (whiteScore == 2) {
+        int winNum = 0;
+        for (int i = 0; i < COUNT - 1; i++) {
+          if (whitePokerHands.get(i).equals(whitePokerHands.get(i + 1))) {
+            winNum = whitePokerHands.get(i);
+            break;
+          }
+        }
+        return "white wins with pair of " + String.valueOf(winNum);
+      }
+
     }
 
     return null;
