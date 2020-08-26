@@ -269,6 +269,19 @@ public class DemoTest {
     Assertions.assertEquals("white wins with flush of 3D6D7DTDQD", res);
   }
 
+  @Test
+  public void should_return_white_wins_with_full_house_of_33553_when_calculate_winner_given_black_with_two_pairs_and_white_with_full_house_of_33553() {
+    //given
+    String black = "2H 2D 9S 9C KD";
+    String white = "3H 3D 5H 5C 3H";
+
+    //when
+    String res = demo.calculateWinner(black, white);
+
+    //then
+    Assertions.assertEquals("white wins with full house of 3 over 5", res);
+  }
+
 }
 
 
