@@ -114,7 +114,7 @@ public class DemoTest {
   }
 
   @Test
-  public void should_return_white_wins_with_4_of_a_kind_of_3_with_diamonds_when_calculate_winner_given_black_with_high_card_and_white_with_4_of_a_kind_of_3() {
+  public void should_return_white_wins_with_4_of_a_kind_of_3_when_calculate_winner_given_black_with_high_card_and_white_with_4_of_a_kind_of_3() {
     //given
     String black = "2H 3D 5S 9C KD";
     String white = "3H 3D 3S 3C KH";
@@ -205,7 +205,7 @@ public class DemoTest {
   }
 
   @Test
-  public void should_return_white_wins_with_4_of_a_kind_of_3_with_diamonds_when_calculate_winner_given_black_with_pair_and_white_with_4_of_a_kind_of_3() {
+  public void should_return_white_wins_with_4_of_a_kind_of_3_when_calculate_winner_given_black_with_pair_and_white_with_4_of_a_kind_of_3() {
     //given
     String black = "2H 2D 5S 9C KD";
     String white = "3H 3D 3S 3C KH";
@@ -283,7 +283,7 @@ public class DemoTest {
   }
 
   @Test
-  public void should_return_white_wins_with_4_of_a_kind_of_3_with_diamonds_when_calculate_winner_given_black_with_two_pairs_and_white_with_4_of_a_kind_of_3() {
+  public void should_return_white_wins_with_4_of_a_kind_of_3_when_calculate_winner_given_black_with_two_pairs_and_white_with_4_of_a_kind_of_3() {
     //given
     String black = "2H 2D 9S 9C KD";
     String white = "3H 3D 3S 3C KH";
@@ -335,7 +335,21 @@ public class DemoTest {
   }
 
   @Test
-  public void should_return_white_wins_with_4_of_a_kind_of_3_with_diamonds_when_calculate_winner_given_black_with_three_of_a_kind_and_white_with_4_of_a_kind_of_3() {
+  public void should_return_white_wins_with_full_house_of_33553_when_calculate_winner_given_black_with_three_of_a_kind_and_white_with_full_house_of_33553() {
+    //given
+    String black = "2H 2D 2S 9C KD";
+    String white = "3H 3D 5H 5C 3H";
+
+    //when
+    String res = demo.calculateWinner(black, white);
+
+    //then
+    Assertions.assertEquals("white wins with full house of 3 over 5", res);
+  }
+
+
+  @Test
+  public void should_return_white_wins_with_4_of_a_kind_of_3_when_calculate_winner_given_black_with_three_of_a_kind_and_white_with_4_of_a_kind_of_3() {
     //given
     String black = "2H 2D 2S 9C KD";
     String white = "3H 3D 3S 3C KH";
