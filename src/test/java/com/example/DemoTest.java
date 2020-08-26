@@ -465,6 +465,20 @@ public class DemoTest {
     Assertions.assertEquals("white wins with straight flush of 3H4H5H6H7H", res);
   }
 
+  @Test
+  public void should_return_white_wins_with_4_of_a_kind_of_3_when_calculate_winner_given_black_with_full_house_and_white_with_4_of_a_kind_of_3() {
+    //given
+    String black = "4S 4D 4H 9C 9S";
+    String white = "3H 3D 3S 3C KH";
+
+    //when
+    String res = demo.calculateWinner(black, white);
+
+    //then
+    Assertions.assertEquals("white wins with four of a kind of 3", res);
+  }
+
+
 
 }
 
