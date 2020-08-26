@@ -76,29 +76,50 @@ public class Demo {
     Collections.sort(whitePokerHands);
   }
 
+  private void pairCalculate(List<Integer> pokerHands, PlayerCard playerCard) {
+    int pairNum = 1;
+    int sameNum = 0;
+    for (int i = 0; i < pokerHands.size(); i++) {
+      int tmp = 1;
+      for (int j = i + 1; j < pokerHands.size(); j++) {
+        if (pokerHands.get(i).equals(pokerHands.get(j))) {
+          tmp++;
+          sameNum = pokerHands.get(i);
+        }
+      }
+      pairNum = tmp > pairNum ? tmp : pairNum;
+      if (pairNum == 4) {
+        break;
+      }
+    }
+    if (pairNum == 2) {
+      playerCard.setType("with pair of " + sameNum);
+      playerCard.setScore(2);
+    }
+    if (pairNum == 3) {
+      playerCard.setType("with three of a kind of " + sameNum);
+      playerCard.setScore(4);
+    }
+    if (pairNum == 4) {
+      playerCard.setType("with four of a kind of " + sameNum);
+      playerCard.setScore(8);
+    }
+  }
+
 
   public PlayerCard calculateScore(List<Integer> pokerHands, List<String> pokerColors) {
 
     PlayerCard playerCard = new PlayerCard();
+    playerCard.setScore(1);
 
     Integer score = 1;
 
-    // pair
-    for (int i = 0; i < pokerHands.size(); i++) {
-      for (int j = i + 1; j < pokerHands.size(); j++) {
-        if (pokerHands.get(i).equals(pokerHands.get(j))) {
-          playerCard.setType("with pair of " + String.valueOf(pokerHands.get(i)));
-          score = 2;
-        }
-      }
-      if (score == 2) {
-        break;
-      }
-    }
+    // pair , three of a kind , four of a kind
+    pairCalculate(pokerHands, playerCard);
 
     // two pair
     int pairNum = 0;
-    int firstCount = 0 , secondCount = 0;
+    int firstCount = 0, secondCount = 0;
     for (int i = 0; i < pokerHands.size(); i++) {
       for (int j = i + 1; j < pokerHands.size(); j++) {
         if (pairNum == 1 && pokerHands.get(i).equals(pokerHands.get(j))) {
@@ -111,23 +132,11 @@ public class Demo {
         }
       }
       if (pairNum == 2) {
-        playerCard.setType("with two pairs of " + firstCount + " and " + secondCount);
         score = 3;
-        break;
-      }
-    }
-
-    // Three of a Kind
-    for (int i = 0; i < pokerHands.size(); i++) {
-      int num = 1;
-      for (int j = i + 1; j < pokerHands.size(); j++) {
-        if (pokerHands.get(i).equals(pokerHands.get(j))) {
-          num++;
+        if (score > playerCard.getScore()) {
+          playerCard.setType("with two pairs of " + firstCount + " and " + secondCount);
         }
-      }
-      if (num == 3) {
-        playerCard.setType("with three of a kind of " + String.valueOf(pokerHands.get(i)));
-        score = 4;
+
         break;
       }
     }
@@ -140,7 +149,7 @@ public class Demo {
       if (pokerHands.get(i) + 1 != pokerHands.get(i + 1)) {
         isStraight = false;
       }
-      if(i == pokerHands.size() - 2) {
+      if (i == pokerHands.size() - 2) {
         straightCardType += String.valueOf(pokerHands.get(i + 1));
       }
     }
@@ -158,16 +167,16 @@ public class Demo {
     boolean isFlush = true;
     String flushCardType = "";
     String color = pokerColors.get(0);
-    for(int i = 0; i < pokerColors.size(); i ++){
-        if(!pokerColors.get(i).equals(color)){
-            isFlush = false;
-            break;
-        }
+    for (int i = 0; i < pokerColors.size(); i++) {
+      if (!pokerColors.get(i).equals(color)) {
+        isFlush = false;
+        break;
+      }
     }
-    if(isFlush){
-      for(int num : pokerHands) {
+    if (isFlush) {
+      for (int num : pokerHands) {
         for (String getkey : pokerHandsCard.keySet()) {
-          if ( pokerHandsCard.get(getkey).equals(num)) {
+          if (pokerHandsCard.get(getkey).equals(num)) {
             flushCardType += getkey + color;
 
           }
@@ -176,8 +185,6 @@ public class Demo {
       score = 6;
       playerCard.setType("with flush of " + flushCardType);
     }
-
-
 
     //Full House
     if (pokerHands.get(0).equals(pokerHands.get(2)) && pokerHands.get(3).equals(pokerHands.get(COUNT - 1))) {
@@ -189,29 +196,16 @@ public class Demo {
       score = 7;
     }
 
-    // Four of a Kind
-    for (int i = 0; i < pokerHands.size(); i++) {
-      int num = 1;
-      for (int j = i + 1; j < pokerHands.size(); j++) {
-        if (pokerHands.get(i).equals(pokerHands.get(j))) {
-          num++;
-        }
-      }
-      if (num == 4) {
-        playerCard.setType("with four of a kind of " + pokerHands.get(i));
-        score = 8;
-        break;
-      }
-    }
-
     //Straight flush
     if (isStraight && isFlush) {
       playerCard.setType("with straight flush of " + flushCardType);
       score = 9;
+
     }
+
+    score = score > playerCard.getScore() ? score : playerCard.getScore();
     playerCard.setScore(score);
     playerCard.setMaxNum(pokerHands.get(COUNT - 1));
-
 
     return playerCard;
   }
@@ -233,18 +227,18 @@ public class Demo {
     PlayerCard whiteCard = calculateScore(whitePokerHands, whitePokerColor);
 
     System.out.println(whiteCard.getScore());
-    System.out.println( whiteCard.getType());
+    System.out.println(whiteCard.getType());
 
     if (blackCard.getScore().equals(whiteCard.getScore())) {
       if (blackCard.getScore() == 1) {
-        if(blackCard.getMaxNum().equals(whiteCard.getMaxNum())){
+        if (blackCard.getMaxNum().equals(whiteCard.getMaxNum())) {
           return "Tie";
         }
       }
     }
 
     if (blackCard.getScore() < whiteCard.getScore()) {
-        return "white wins " + whiteCard.getType() ;
+      return "white wins " + whiteCard.getType();
     }
 
     return null;
@@ -254,7 +248,7 @@ public class Demo {
   public static void main(String[] args) {
     Demo demo = new Demo();
 
-    demo.calculateWinner("2D 3H 5C 9S KH", "3D 6D 7D TD QD");
+    demo.calculateWinner("2D 3H 5C 9S KH", "3H 3H 3H 3H 7H");
   }
 
 }
