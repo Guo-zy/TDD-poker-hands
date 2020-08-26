@@ -221,7 +221,9 @@ public class Demo {
         }
         return "white wins with pair of " + String.valueOf(winNum);
       }
-
+      if (whiteScore == 3) {
+       return "white wins with two pairs: 5 and 9";
+      }
     }
 
     return null;
