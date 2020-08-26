@@ -206,7 +206,7 @@ public class Demo {
 
     //Straight flush
     if (isStraight && isFlush) {
-      playerCard.setType("with Straight flush of : " + flushCardType);
+      playerCard.setType("with straight flush of " + flushCardType);
       score = 9;
     }
     playerCard.setScore(score);
