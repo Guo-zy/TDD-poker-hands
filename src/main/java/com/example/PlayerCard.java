@@ -4,15 +4,8 @@ public class PlayerCard {
 
   protected Integer score;
   protected String Type;
-  protected Integer maxNum;
 
-  public Integer getMaxNum() {
-    return maxNum;
-  }
 
-  public void setMaxNum(Integer maxNum) {
-    this.maxNum = maxNum;
-  }
 
   public Integer getScore() {
     return score;

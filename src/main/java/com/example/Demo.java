@@ -210,8 +210,6 @@ public class Demo {
     //Full House
     fullHouseCalculate(pokerHands, playerCard);
 
-    playerCard.setMaxNum(pokerHands.get(COUNT - 1));
-
     return playerCard;
   }
 
@@ -225,28 +223,38 @@ public class Demo {
     return true;
   }
 
+
+  private boolean isTie(List<Integer> blackPokerHands, List<Integer> whitePokerHands) {
+    for (int i = 0; i < blackPokerHands.size(); i++) {
+      if (blackPokerHands.get(i) != whitePokerHands.get(i)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   public String calculateWinner(String black, String white) {
 
     separateCardsAndSuits(black, white);
     PlayerCard blackCard = calculateScore(blackPokerHands, blackPokerColor);
     PlayerCard whiteCard = calculateScore(whitePokerHands, whitePokerColor);
 
-    System.out.println(whiteCard.getScore());
-    System.out.println(whiteCard.getType());
+    if (isTie(blackPokerHands, whitePokerHands)) {
+      return "Tie";
+    }
 
     if (blackCard.getScore().equals(whiteCard.getScore())) {
       if (blackCard.getScore() == 1) {
-        if (blackCard.getMaxNum().equals(whiteCard.getMaxNum())) {
-          return "Tie";
-        }
+
       }
+
     }
 
     if (blackCard.getScore() < whiteCard.getScore()) {
       return "white wins " + whiteCard.getType();
     }
 
-    return null;
+    return "black wins " + blackCard.getType();
   }
 
 
