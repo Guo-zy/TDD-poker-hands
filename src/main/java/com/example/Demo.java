@@ -198,7 +198,7 @@ public class Demo {
         }
       }
       if (num == 4) {
-        playerCard.setType("with Four of a Kind of : " + pokerHands.get(i));
+        playerCard.setType("with four of a kind of " + pokerHands.get(i));
         score = 8;
         break;
       }
