@@ -543,6 +543,45 @@ public class DemoTest {
     Assertions.assertEquals("white wins with pair of 5", res);
   }
 
+  @Test
+  public void should_return_white_wins_with_pair_of_5_when_calculate_winner_given_black_with_55678_and_white_with_5567A() {
+    //given
+    String black = "5S 5H 6C 7D 8S";
+    String white = "5C 5D 6S 7H AH";
+
+    //when
+    String res = demo.calculateWinner(black, white);
+
+    //then
+    Assertions.assertEquals("white wins with pair of max num is A", res);
+  }
+
+  @Test
+  public void should_return_white_wins_with_pair_of_5_when_calculate_winner_given_black_with_55678_and_white_with_5567T() {
+    //given
+    String black = "5S 5H 6C 7D 8S";
+    String white = "5C 5D 6S 7H TH";
+
+    //when
+    String res = demo.calculateWinner(black, white);
+
+    //then
+    Assertions.assertEquals("white wins with pair of max num is T", res);
+  }
+
+  @Test
+  public void should_return_white_wins_with_pair_of_5_when_calculate_winner_given_black_with_5537T_and_white_with_5567T() {
+    //given
+    String black = "5S 5H 3C 7D TS";
+    String white = "5C 5D 6S 7H TH";
+
+    //when
+    String res = demo.calculateWinner(black, white);
+
+    //then
+    Assertions.assertEquals("white wins with pair of max num is 6", res);
+  }
+
 }
 
 

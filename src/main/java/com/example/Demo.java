@@ -262,6 +262,34 @@ public class Demo {
                 whitePairNum = whitePokerHands.get(i);
             }
         }
+        if(blackPairNum == whitePairNum){
+            if(blackPairNum != 1 ){
+                if (blackPokerHands.get(0) == 1 && whitePokerHands.get(0) != 1) {
+                    return "black wins with pair of max num is A";
+                }
+                if (whitePokerHands.get(0) == 1 && blackPokerHands.get(0) != 1) {
+                    return "white wins with pair of max num is A";
+                }
+            }
+            for (int i = COUNT - 1; i >= 0; i--) {
+                if (blackPokerHands.get(i) > whitePokerHands.get(i)) {
+                    for (String getkey : pokerHandsCard.keySet()) {
+                        if (pokerHandsCard.get(getkey).equals(blackPokerHands.get(i))) {
+                            return "black wins with pair of max num is " + getkey;
+                        }
+                    }
+                }
+                if (whitePokerHands.get(i) > blackPokerHands.get(i)) {
+                    for (String getkey : pokerHandsCard.keySet()) {
+                        if (pokerHandsCard.get(getkey).equals(whitePokerHands.get(i))) {
+                            return "white wins with pair of max num is " + getkey;
+                        }
+                    }
+                }
+            }
+            return null;
+        }
+        else
         return blackPairNum > whitePairNum ? "black wins with pair of " + blackPairNum :"white wins with pair of " + whitePairNum;
     }
 
