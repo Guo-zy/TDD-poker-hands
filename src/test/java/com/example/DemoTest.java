@@ -230,6 +230,19 @@ public class DemoTest {
     Assertions.assertEquals("white wins with straight flush of 3H4H5H6H7H", res);
   }
 
+  @Test
+  public void should_return_white_wins_with_three_of_a_kind_of_5_when_calculate_winner_given_black_with_two_pairs_and_white_with_three_of_a_kind() {
+    //given
+    String black = "2H 2D 9S 9C KD";
+    String white = "5D 9H 5C 5H KH";
+
+    //when
+    String res = demo.calculateWinner(black, white);
+
+    //then
+    Assertions.assertEquals("white wins with three of a kind of 5", res);
+  }
+
 }
 
 
