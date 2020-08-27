@@ -351,10 +351,20 @@ public class Demo {
   }
 
   private String calculateFullHouse(PlayerCard blackCard, PlayerCard whiteCard) {
-    if (pokerHandsCard.get(blackCard.getParticularNums().substring(0, 1)) > pokerHandsCard.get(whiteCard.getParticularNums().substring(0, 1))) {
-      return "black wins with full house of "+blackCard.getParticularNums().substring(0, 1)+" over "+ blackCard.getParticularNums().substring(1, 2);
+    if (pokerHandsCard.get(blackCard.getParticularNums().substring(0, 1)) > pokerHandsCard
+        .get(whiteCard.getParticularNums().substring(0, 1))) {
+      return "black wins with full house of " + blackCard.getParticularNums().substring(0, 1) + " over " + blackCard
+          .getParticularNums().substring(1, 2);
     }
-    return "white wins with full house of "+whiteCard.getParticularNums().substring(0, 1)+" over "+ whiteCard.getParticularNums().substring(1, 2);
+    return "white wins with full house of " + whiteCard.getParticularNums().substring(0, 1) + " over " + whiteCard
+        .getParticularNums().substring(1, 2);
+  }
+
+  private String calculateFourKinds(PlayerCard blackCard, PlayerCard whiteCard) {
+    if (pokerHandsCard.get(blackCard.getParticularNums()) > pokerHandsCard.get(whiteCard.getParticularNums())) {
+      return "black wins with four of a kind of " + blackCard.getParticularNums();
+    }
+    return "white wins with four of a kind of " + whiteCard.getParticularNums();
   }
 
 
@@ -420,6 +430,9 @@ public class Demo {
       }
       if (blackCards.getScore() == 7) {
         return calculateFullHouse(blackCards, whiteCards);
+      }
+      if (blackCards.getScore() == 8) {
+        return calculateFourKinds(blackCards, whiteCards);
       }
     }
 

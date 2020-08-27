@@ -867,6 +867,32 @@ public class DemoTest {
     Assertions.assertEquals("white wins with full house of T over K", res);
   }
 
+  @Test
+  public void should_return_white_wins_with_four_of_a_kind_of_4444A_when_calculate_winner_given_black_with_33335_and_white_with_4444A() {
+    //given
+    String black = "3D 3C 3D 3S 5C";
+    String white = "4S 4C 4D 4S AH";
+
+    //when
+    String res = demo.calculateWinner(black, white);
+
+    //then
+    Assertions.assertEquals("white wins with four of a kind of 4", res);
+  }
+
+  @Test
+  public void should_return_white_wins_with_four_of_a_kind_of_QAAAA_when_calculate_winner_given_black_with_TTTTJ_and_white_with_QAAAA() {
+    //given
+    String black = "TD TC TD TS JC";
+    String white = "QS AC AD AS AH";
+
+    //when
+    String res = demo.calculateWinner(black, white);
+
+    //then
+    Assertions.assertEquals("white wins with four of a kind of A", res);
+  }
+
 }
 
 
