@@ -417,17 +417,7 @@ public class Demo {
 
   }
 
-  public String calculateWinner(String black, String white) {
-
-    PlayerCard blackCards = new PlayerCard();
-    PlayerCard whiteCards = new PlayerCard();
-
-    separateCardsAndSuits(black, blackCards);
-    separateCardsAndSuits(white, whiteCards);
-
-    calculateScore(blackCards);
-    calculateScore(whiteCards);
-
+  private String getWinner(PlayerCard blackCards , PlayerCard whiteCards){
     if (blackCards.getScore().equals(whiteCards.getScore())) {
       if (blackCards.getScore() == 1) {
         System.out.println(calculateWinnerOfHighCard(blackCards, whiteCards));
@@ -462,6 +452,21 @@ public class Demo {
     }
 
     return "black wins " + blackCards.getType();
+  }
+
+
+  public String calculateWinner(String black, String white) {
+
+    PlayerCard blackCards = new PlayerCard();
+    PlayerCard whiteCards = new PlayerCard();
+
+    separateCardsAndSuits(black, blackCards);
+    separateCardsAndSuits(white, whiteCards);
+
+    calculateScore(blackCards);
+    calculateScore(whiteCards);
+
+    return getWinner(blackCards , whiteCards);
   }
 
 
