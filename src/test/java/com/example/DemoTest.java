@@ -646,6 +646,85 @@ public class DemoTest {
     //then
     Assertions.assertEquals("white wins with two pairs of Q and K", res);
   }
+
+  @Test
+  public void should_return_white_wins_with_three_of_a_kind_33359_when_calculate_winner_given_black_with_33359_and_white_with_QQQ89() {
+    //given
+    String black = "3S 3H 3C 5D 9S";
+    String white = "QC QD QS 8C 9H";
+
+    //when
+    String res = demo.calculateWinner(black, white);
+
+    //then
+    Assertions.assertEquals("white wins with three of a kind of Q", res);
+  }
+
+  @Test
+  public void should_return_white_wins_with_three_of_a_kind_53339_when_calculate_winner_given_black_with_53339_and_white_with_QQQ89() {
+    //given
+    String black = "5S 3H 3C 3D 9S";
+    String white = "QC QD QS 8C 9H";
+
+    //when
+    String res = demo.calculateWinner(black, white);
+
+    //then
+    Assertions.assertEquals("white wins with three of a kind of Q", res);
+  }
+
+  @Test
+  public void should_return_white_wins_with_three_of_a_kind_59333_when_calculate_winner_given_black_with_59333_and_white_with_QQQ89() {
+    //given
+    String black = "5S 3H 3C 3D 9S";
+    String white = "QC QD QS 8C 9H";
+
+    //when
+    String res = demo.calculateWinner(black, white);
+
+    //then
+    Assertions.assertEquals("white wins with three of a kind of Q", res);
+  }
+
+  @Test
+  public void should_return_white_wins_with_three_of_a_kind_5553A_when_calculate_winner_given_black_with_5553A_and_white_with_53AAA() {
+    //given
+    String black = "AC 5D 5S 5C 3H";
+    String white = "5S 3H AC AD AS";
+
+    //when
+    String res = demo.calculateWinner(black, white);
+
+    //then
+    Assertions.assertEquals("white wins with three of a kind of A", res);
+  }
+  @Test
+  public void should_return_white_wins_with_three_of_a_kind_2555A_when_calculate_winner_given_black_with_2A223_and_white_with_2555A() {
+    //given
+    String black = "2C AD 2S 2C 3H";
+    String white = "2H 5H 5C 5D AS";
+
+    //when
+    String res = demo.calculateWinner(black, white);
+
+    //then
+    Assertions.assertEquals("white wins with three of a kind of 5", res);
+  }
+
+  @Test
+  public void should_return_white_wins_with_three_of_a_kind_5TTT3_when_calculate_winner_given_black_with_999A3_and_white_with_5TTT3() {
+    //given
+    String black = "9C 9D 9S AC 3H";
+    String white = "5S TH TC TD 3S";
+
+    //when
+    String res = demo.calculateWinner(black, white);
+
+    //then
+    Assertions.assertEquals("white wins with three of a kind of T", res);
+  }
+
+
 }
 
 
