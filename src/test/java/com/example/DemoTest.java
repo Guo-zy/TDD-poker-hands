@@ -582,19 +582,70 @@ public class DemoTest {
     Assertions.assertEquals("white wins with pair of max num is 6", res);
   }
 
-//  @Test
-//  public void should_return_white_wins_with_two_pairs_with_3366A_when_calculate_winner_given_black_with_3355A_and_white_with_3366A() {
-//    //given
-//      String black = "5S 5H 3C 3D AS";
-//    String white = "6C 6D 3S 3H AH";
-//
-//    //when
-//    String res = demo.calculateWinner(black, white);
-//
-//    //then
-//    Assertions.assertEquals("white wins with two pairs of 3 and 6", res);
-//  }
+  @Test
+  public void should_return_white_wins_with_two_pairs_with_3366A_when_calculate_winner_given_black_with_3355A_and_white_with_3366A() {
+    //given
+      String black = "5S 5H 3C 3D AS";
+    String white = "6C 6D 3S 3H AH";
 
+    //when
+    String res = demo.calculateWinner(black, white);
+
+    //then
+    Assertions.assertEquals("white wins with two pairs of 3 and 6", res);
+  }
+
+  @Test
+  public void should_return_white_wins_with_two_pairs_with_2266A_when_calculate_winner_given_black_with_3366A_and_white_with_2266A() {
+    //given
+    String black = "2S 2H 6C 6D AS";
+    String white = "3C 3D 6S 6H AH";
+
+    //when
+    String res = demo.calculateWinner(black, white);
+
+    //then
+    Assertions.assertEquals("white wins with two pairs of 3 and 6", res);
+  }
+
+  @Test
+  public void should_return_tie_when_calculate_winner_given_black_with_2266A_and_white_with_2266A() {
+    //given
+    String black = "2S 2H 6C 6D AS";
+    String white = "2C 2D 6S 6H AH";
+
+    //when
+    String res = demo.calculateWinner(black, white);
+
+    //then
+    Assertions.assertEquals("Tie", res);
+  }
+
+  @Test
+  public void should_return_white_wins_with_two_pairs_with_2266K_when_calculate_winner_given_black_with_2266K_and_white_with_55663() {
+    //given
+    String black = "2S 2H 6C 6D KS";
+    String white = "5C 5D 6S 6H 3H";
+
+    //when
+    String res = demo.calculateWinner(black, white);
+
+    //then
+    Assertions.assertEquals("white wins with two pairs of 5 and 6", res);
+  }
+
+  @Test
+  public void should_return_white_wins_with_two_pairs_with_226KK_when_calculate_winner_given_black_with_226KK_and_white_with_556KK() {
+    //given
+    String black = "2S 2H 6C KD KS";
+    String white = "5C 5D 6S KH KH";
+
+    //when
+    String res = demo.calculateWinner(black, white);
+
+    //then
+    Assertions.assertEquals("white wins with two pairs of 5 and K", res);
+  }
 }
 
 

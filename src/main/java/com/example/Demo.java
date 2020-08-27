@@ -257,11 +257,9 @@ public class Demo {
 
   }
 
-  private String calculateWinnerOfTwoPairs(PlayerCard playerCard) {
-    int blackFirstCp = 0;
-    int blackSecondCp = 0;
-    int whiteFirstCp = 0;
-    int whiteSecondCp = 0;
+  private String calculateWinnerOfTwoPairs(PlayerCard blackCard, PlayerCard whiteCard) {
+    List<Integer> blackPokerhands = blackCard.getPokerHands();
+    List<Integer> whitePokerhands = whiteCard.getPokerHands();
     return null;
   }
 
@@ -308,15 +306,15 @@ public class Demo {
 
     if (blackCards.getScore().equals(whiteCards.getScore())) {
       if (blackCards.getScore() == 1) {
-        System.out.println( calculateWinnerOfHighCard(blackCards, whiteCards));
+        System.out.println(calculateWinnerOfHighCard(blackCards, whiteCards));
         return calculateWinnerOfHighCard(blackCards, whiteCards);
       }
       if (blackCards.getScore() == 2) {
         return calculateWinnerOfPair(blackCards, whiteCards);
       }
-//            if (blackCards.getScore() == 3) {
-//                return calculateWinnerOfTwoPairs(blackPokerHands, whitePokerHands);
-//            }
+      if (blackCards.getScore() == 3) {
+        return calculateWinnerOfTwoPairs(blackCards, whiteCards);
+      }
     }
 
     if (blackCards.getScore() < whiteCards.getScore()) {
