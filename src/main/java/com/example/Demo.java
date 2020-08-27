@@ -1,27 +1,17 @@
 package com.example;
 
+import java.lang.reflect.Array;
 import java.util.*;
 import java.util.concurrent.CountDownLatch;
 
 public class Demo {
-
-  private static final Integer COUNT = 5;
-
-  private PlayerCard blackCards;
-  private PlayerCard whiteCards;
-
-  private final List<Integer> blackPokerHands = new ArrayList<>(COUNT);
-  private final List<Integer> whitePokerHands = new ArrayList<>(COUNT);
-  private final List<String> blackPokerColor = new ArrayList<>(COUNT);
-  private final List<String> whitePokerColor = new ArrayList<>(COUNT);
-
 
   private final Map<String, Integer> pokerHandsCard;
   private final Map<Integer, String> pokerHandsSituation;
 
   {
     pokerHandsSituation = new HashMap<>();
-    pokerHandsSituation.put(1, "A");
+    pokerHandsSituation.put(14, "A");
     pokerHandsSituation.put(2, "2");
     pokerHandsSituation.put(3, "3");
     pokerHandsSituation.put(4, "4");
@@ -36,7 +26,7 @@ public class Demo {
     pokerHandsSituation.put(13, "K");
 
     pokerHandsCard = new HashMap<>();
-    pokerHandsCard.put("A", 1);
+    pokerHandsCard.put("A", 14);
     pokerHandsCard.put("2", 2);
     pokerHandsCard.put("3", 3);
     pokerHandsCard.put("4", 4);
@@ -57,338 +47,197 @@ public class Demo {
   }
 
 
-  private void separateCardsAndSuits(String black, String white) {
-    blackPokerHands.clear();
-    blackPokerColor.clear();
-    whitePokerHands.clear();
-    whitePokerColor.clear();
+  private void separateCardsAndSuits(String cards, PlayerCard playerCard) {
 
-    String[] blacks = black.split(" ");
-    String[] whites = white.split(" ");
-    StringBuilder blackOriginNums = new StringBuilder();
-    StringBuilder blackOriginColors = new StringBuilder();
-    StringBuilder whiteOriginNums = new StringBuilder();
-    StringBuilder whiteOriginColors = new StringBuilder();
+    String[] cardsNum = cards.split(" ");
 
-    for (String s : blacks) {
-      blackOriginNums.append(s, 0, 1);
-      blackOriginColors.append(s.substring(1));
-      blackPokerHands.add(pokerHandsCard.get(s.substring(0, 1)));
-      blackPokerColor.add(s.substring(1));
-    }
-    for (String s : whites) {
-      whiteOriginNums.append(s, 0, 1);
-      whiteOriginColors.append(s.substring(1));
-      whitePokerHands.add(pokerHandsCard.get(s.substring(0, 1)));
-      whitePokerColor.add(s.substring(1));
+    List<Integer> pokerHands = new ArrayList<>();
+    List<String> pokerColors = new ArrayList<>();
+
+    for (String s : cardsNum) {
+      String tmp = playerCard.getOriginNums() + s.substring(0, 1);
+      playerCard.setOriginNums(tmp);
+      pokerHands.add(pokerHandsCard.get(s.substring(0, 1)));
+      pokerColors.add(s.substring(1));
     }
 
-    whiteCards.setOriginNums(whiteOriginNums.toString());
-    whiteCards.setColors(whiteOriginColors.toString());
-    blackCards.setOriginNums(blackOriginNums.toString());
-    blackCards.setColors(blackOriginColors.toString());
+    Collections.sort(pokerHands);
 
-    Collections.sort(blackPokerHands);
-    Collections.sort(whitePokerHands);
+    playerCard.setPokerHands(pokerHands);
+    playerCard.setPokerColors(pokerColors);
+
   }
 
-  private void pairCalculate(List<Integer> blackPokerHands, List<Integer> whitePokerHands) {
+  private void pairCalculate(PlayerCard playerCard) {
     int score = 2;
 
-    for (int i = 0; i < COUNT - 2; i++) {
-      if (blackPokerHands.get(i).equals(blackPokerHands.get(i + 1))) {
-        blackCards.setScore(score);
-        blackCards.setType("with pair of " + pokerHandsSituation.get(blackPokerHands.get(i)));
-        blackCards.setParticularNums(pokerHandsSituation.get(blackPokerHands.get(i)));
-      }
-      if (whitePokerHands.get(i).equals(whitePokerHands.get(i + 1))) {
-        whiteCards.setScore(score);
-        whiteCards.setType("with pair of " + pokerHandsSituation.get(whitePokerHands.get(i)));
-        whiteCards.setParticularNums(pokerHandsSituation.get(whitePokerHands.get(i)));
+    List<Integer> pokerHands = playerCard.getPokerHands();
+
+    for (int i = 0; i < pokerHands.size() - 1; i++) {
+      if (pokerHands.get(i).equals(pokerHands.get(i + 1))) {
+        playerCard.setScore(score);
+        playerCard.setType("with pair of " + pokerHandsSituation.get(pokerHands.get(i)));
+        playerCard.setParticularNums(String.valueOf(pokerHands.get(i)));
       }
     }
+
   }
 
-  private void twoPairCalculate(List<Integer> blackPokerHands, List<Integer> whitePokerHands) {
+  private void twoPairCalculate(PlayerCard playerCard) {
     int score = 3;
-    StringBuilder blackPair = new StringBuilder();
-    StringBuilder whitePair = new StringBuilder();
+    StringBuilder pair = new StringBuilder();
+    List<Integer> pokerHands = playerCard.getPokerHands();
 
-    for (int i = 0; i < COUNT - 2; i++) {
-      if (blackPokerHands.get(i).equals(blackPokerHands.get(i + 1))) {
-        blackPair.append(pokerHandsSituation.get(blackPokerHands.get(i)));
-      }
-      if (whitePokerHands.get(i).equals(whitePokerHands.get(i + 1))) {
-        whitePair.append(pokerHandsSituation.get(whitePokerHands.get(i)));
+    for (int i = 0; i < pokerHands.size() - 1; i++) {
+      if (pokerHands.get(i).equals(pokerHands.get(i + 1))) {
+        pair.append(pokerHandsSituation.get(pokerHands.get(i)));
       }
     }
 
-    if (blackPair.length() == 2) {
-      blackCards.setScore(score);
-      blackCards.setParticularNums(blackPair.toString());
-      blackCards.setType("with two pairs of " + blackPair.substring(0, 1) + " and " + blackPair.substring(1));
-
-    }
-    if (whitePair.length() == 2) {
-      whiteCards.setScore(score);
-      whiteCards.setParticularNums(whitePair.toString());
-      whiteCards.setType("with two pairs of " + whitePair.substring(0, 1) + " and " + whitePair.substring(1));
+    if (pair.length() == 2) {
+      playerCard.setScore(score);
+      playerCard.setParticularNums(pair.toString());
+      playerCard.setType("with two pairs of " + pair.substring(0, 1) + " and " + pair.substring(1));
     }
 
   }
 
-  private void threeOfAKindCalculate(List<Integer> blackPokerHands, List<Integer> whitePokerHands) {
+  private void threeOfAKindCalculate(PlayerCard playerCard) {
     int score = 4;
+    List<Integer> pokerHands = playerCard.getPokerHands();
 
-    for (int i = 0; i < COUNT - 3; i++) {
-      if (blackPokerHands.get(i).equals(blackPokerHands.get(i + 1))
-          && blackPokerHands.get(i).equals(blackPokerHands.get(i + 2))) {
-        blackCards.setScore(score);
-        blackCards.setType("with three of a kind of " + pokerHandsSituation.get(blackPokerHands.get(i)));
-        blackCards.setParticularNums(pokerHandsSituation.get(blackPokerHands.get(i)));
-      }
-      if (whitePokerHands.get(i).equals(whitePokerHands.get(i + 1))
-          && whitePokerHands.get(i).equals(whitePokerHands.get(i + 2))) {
-        whiteCards.setScore(score);
-        whiteCards.setType("with three of a kind of " + pokerHandsSituation.get(whitePokerHands.get(i)));
-        whiteCards.setParticularNums(String.valueOf(pokerHandsSituation.get(blackPokerHands.get(i))));
+    for (int i = 0; i < pokerHands.size() - 3; i++) {
+      if (pokerHands.get(i).equals(pokerHands.get(i + 1))
+          && pokerHands.get(i).equals(pokerHands.get(i + 2))) {
+        playerCard.setScore(score);
+        playerCard.setType("with three of a kind of " + pokerHandsSituation.get(pokerHands.get(i)));
+        playerCard.setParticularNums(String.valueOf(pokerHands.get(i)));
       }
     }
-
-
   }
 
-  private void straightCalculate(List<Integer> blackPokerHands, List<Integer> whitePokerHands) {
+  private void straightCalculate(PlayerCard playerCard) {
     int score = 5;
+    List<Integer> pokerHands = playerCard.getPokerHands();
 
-    int blackFirst = blackPokerHands.get(0), whiteFirst = whitePokerHands.get(0);
-    int blackSecond = blackPokerHands.get(1), whiteSecond = whitePokerHands.get(1);
-    int blackThird = blackPokerHands.get(2), whiteThird = whitePokerHands.get(2);
-    int blackForth = blackPokerHands.get(3), whiteForth = whitePokerHands.get(3);
-    int blackFifth = blackPokerHands.get(4), whiteFifth = whitePokerHands.get(4);
+    int first = pokerHands.get(0);
+    int second = pokerHands.get(1);
+    int third = pokerHands.get(2);
+    int forth = pokerHands.get(3);
+    int fifth = pokerHands.get(4);
 
-    String blackType = "" +
-        pokerHandsSituation.get(blackFirst) +
-        pokerHandsSituation.get(blackSecond) +
-        pokerHandsSituation.get(blackThird) +
-        pokerHandsSituation.get(blackForth) +
-        pokerHandsSituation.get(blackFifth);
+    String type = "" +
+        pokerHandsSituation.get(first) +
+        pokerHandsSituation.get(second) +
+        pokerHandsSituation.get(third) +
+        pokerHandsSituation.get(forth) +
+        pokerHandsSituation.get(fifth);
 
-    String whiteType = "" +
-        pokerHandsSituation.get(whiteFirst) +
-        pokerHandsSituation.get(whiteSecond) +
-        pokerHandsSituation.get(whiteThird) +
-        pokerHandsSituation.get(whiteForth) +
-        pokerHandsSituation.get(whiteFifth);
-
-    if (blackFirst + 1 == blackSecond && blackSecond + 1 == blackThird
-        && blackThird + 1 == blackForth && blackForth + 1 == blackFifth) {
-      blackCards.setType("with straight of " + blackType);
-      blackCards.setScore(score);
-      blackCards.setParticularNums(blackType);
-    }
-    if (whiteFirst + 1 == whiteSecond && whiteSecond + 1 == whiteThird
-        && whiteThird + 1 == whiteForth && whiteForth + 1 == whiteFifth) {
-      whiteCards.setType("with straight of " + whiteType);
-      whiteCards.setScore(score);
-      whiteCards.setParticularNums(whiteType);
+    if (first + 1 == second && second + 1 == third
+        && third + 1 == forth && forth + 1 == fifth) {
+      playerCard.setType("with straight of " + type);
+      playerCard.setScore(score);
+      playerCard.setParticularNums(type);
     }
 
-    if (blackFirst == 1 && blackSecond == 10 && blackThird == 11 && blackForth == 12 &&
-        blackFifth == 13) {
-      blackCards.setType("with straight of " + blackType);
-      blackCards.setScore(score);
-      blackCards.setParticularNums(blackType);
+    if (first == 2 && second == 3 && third == 4 && forth == 5 &&
+        fifth == 14) {
+      playerCard.setType("with straight of " + type);
+      playerCard.setScore(score);
+      playerCard.setParticularNums(type);
     }
 
-    if (whiteFirst == 1 && whiteSecond == 10 && whiteThird == 11 && whiteForth == 12 &&
-        whiteFifth == 13) {
-      whiteCards.setType("with straight of " + whiteType);
-      whiteCards.setScore(score);
-      whiteCards.setParticularNums(whiteType);
-    }
   }
 
-  private void flushCalculate(List<String> blackPokerColors, List<String> whitePokerColors) {
+  private void flushCalculate(PlayerCard playerCard) {
     int score = 6;
+    List<String> pokerColors = playerCard.getPokerColors();
+    HashSet<String> Hset = new HashSet<>();
 
-    HashSet<String> blackHset = new HashSet<>();
-    HashSet<String> whiteHset = new HashSet<>();
-
-    for (int i = 0; i < COUNT - 1; i++) {
-      blackHset.add(blackPokerColors.get(i));
-      whiteHset.add(whitePokerColors.get(i));
+    for (int i = 0; i < pokerColors.size() - 1; i++) {
+      Hset.add(pokerColors.get(i));
     }
-    if (blackHset.size() == 1) {
-      if (blackCards.getScore() == 5) {
-        blackCards.setStraightAndFlush(true);
+    if (Hset.size() == 1) {
+      if (playerCard.getScore() == 5) {
+        playerCard.setStraightAndFlush(true);
       }
-      blackCards.setScore(score);
-      blackCards.setType("with flush of " + blackCards.getOriginNums() + " with " + blackPokerColors.get(0));
-      blackCards.setParticularNums(blackCards.getOriginNums() + blackPokerColors.get(0));
-    }
-    if (whiteHset.size() == 1) {
-      if (whiteCards.getScore() == 5) {
-        whiteCards.setStraightAndFlush(true);
-      }
-      whiteCards.setScore(score);
-      whiteCards.setType("with flush of " + whiteCards.getOriginNums() + " with " + whitePokerColors.get(0));
-      whiteCards.setParticularNums(whiteCards.getOriginNums() + whitePokerColors.get(0));
+      playerCard.setScore(score);
+      playerCard.setType("with flush of " + playerCard.getOriginNums() + " with " + pokerColors.get(0));
+      playerCard.setParticularNums(playerCard.getOriginNums() + pokerColors.get(0));
     }
   }
 
-  private void fullHouseCalculate(List<Integer> blackPokerHands, List<Integer> whitePokerHands) {
+  private void fullHouseCalculate(PlayerCard playerCard) {
     int score = 7;
+    List<Integer> pokerHands = playerCard.getPokerHands();
 
-    int blackFirst = blackPokerHands.get(0), whiteFirst = whitePokerHands.get(0);
-    int blackSecond = blackPokerHands.get(1), whiteSecond = whitePokerHands.get(1);
-    int blackThird = blackPokerHands.get(2), whiteThird = whitePokerHands.get(2);
-    int blackForth = blackPokerHands.get(3), whiteForth = whitePokerHands.get(3);
-    int blackFifth = blackPokerHands.get(4), whiteFifth = whitePokerHands.get(4);
+    int first = pokerHands.get(0);
+    int second = pokerHands.get(1);
+    int third = pokerHands.get(2);
+    int forth = pokerHands.get(3);
+    int fifth = pokerHands.get(4);
 
-    if (blackFirst == blackThird && blackForth == blackFifth) {
-      blackCards.setType(
-          "with full house of " + pokerHandsSituation.get(blackFirst) + " over " + pokerHandsSituation.get(blackForth));
-      blackCards.setScore(score);
-      blackCards.setParticularNums(pokerHandsSituation.get(blackFirst) + pokerHandsSituation.get(blackForth));
+    if (first == third && forth == fifth) {
+      playerCard.setType(
+          "with full house of " + pokerHandsSituation.get(first) + " over " + pokerHandsSituation.get(forth));
+      playerCard.setScore(score);
+      playerCard.setParticularNums(pokerHandsSituation.get(first) + pokerHandsSituation.get(forth));
     }
 
-    if (blackFirst == blackSecond && blackThird == blackFifth) {
-      blackCards.setType(
-          "with full house of " + pokerHandsSituation.get(blackForth) + " over " + pokerHandsSituation.get(blackFirst));
-      blackCards.setScore(score);
-      blackCards.setParticularNums(pokerHandsSituation.get(blackForth) + pokerHandsSituation.get(blackFirst));
-    }
-
-    if (whiteFirst == whiteThird && whiteForth == whiteFifth) {
-      whiteCards.setType(
-          "with full house of " + pokerHandsSituation.get(whiteFirst) + " over " + pokerHandsSituation.get(whiteFifth));
-      whiteCards.setScore(score);
-      whiteCards.setParticularNums(pokerHandsSituation.get(whiteFirst) + pokerHandsSituation.get(whiteFifth));
-    }
-
-    if (whiteFirst == whiteSecond && whiteThird == whiteFifth) {
-      whiteCards.setType(
-          "with full house of " + pokerHandsSituation.get(whiteThird) + " over " + pokerHandsSituation.get(whiteFirst));
-      whiteCards.setScore(score);
-      whiteCards.setParticularNums(pokerHandsSituation.get(whiteThird) + pokerHandsSituation.get(whiteFirst));
+    if (first == second && third == fifth) {
+      playerCard.setType(
+          "with full house of " + pokerHandsSituation.get(forth) + " over " + pokerHandsSituation.get(first));
+      playerCard.setScore(score);
+      playerCard.setParticularNums(pokerHandsSituation.get(forth) + pokerHandsSituation.get(first));
     }
   }
 
-  private void fourOfKindCalculate(List<Integer> blackPokerHands, List<Integer> whitePokerHands) {
+  private void fourOfKindCalculate(PlayerCard playerCard) {
     int score = 8;
+    List<Integer> pokerHands = playerCard.getPokerHands();
 
-    if (blackPokerHands.get(0).equals(blackPokerHands.get(3)) ||
-        blackPokerHands.get(1).equals(blackPokerHands.get(4))) {
-      System.out.println(1);
-      blackCards.setScore(score);
-      blackCards.setType("with four of a kind of " + pokerHandsSituation.get(blackPokerHands.get(2)));
-      blackCards.setParticularNums(pokerHandsSituation.get(blackPokerHands.get(2)));
+    if (pokerHands.get(0).equals(pokerHands.get(3)) ||
+        pokerHands.get(1).equals(pokerHands.get(4))) {
+      playerCard.setScore(score);
+      playerCard.setType("with four of a kind of " + pokerHandsSituation.get(pokerHands.get(2)));
+      playerCard.setParticularNums(pokerHandsSituation.get(pokerHands.get(2)));
     }
 
-    if (whitePokerHands.get(0).equals(whitePokerHands.get(3)) ||
-        whitePokerHands.get(1).equals(whitePokerHands.get(4))) {
-
-      whiteCards.setScore(score);
-      whiteCards.setType("with four of a kind of " + pokerHandsSituation.get(whitePokerHands.get(2)));
-      whiteCards.setParticularNums(pokerHandsSituation.get(whitePokerHands.get(2)));
-    }
   }
 
-  private void straightAndFlushCalculate() {
+  private void straightAndFlushCalculate(PlayerCard playerCard) {
     int score = 9;
-    if (blackCards.isStraightAndFlush()) {
-      blackCards.setScore(score);
-      blackCards.setType("with straight flush of " + blackCards.getOriginNums() +" with " + blackPokerColor.get(0));
-    }
-    if (whiteCards.isStraightAndFlush()) {
-      whiteCards.setScore(score);
-      whiteCards.setType("with straight flush of " + whiteCards.getOriginNums() +" with " + whitePokerColor.get(0));
+    if (playerCard.isStraightAndFlush()) {
+      playerCard.setScore(score);
+      playerCard.setType(
+          "with straight flush of " + playerCard.getOriginNums() + " with " + playerCard.getPokerColors().get(0));
     }
   }
 
+  private String calculateWinnerOfHighCard(PlayerCard blackCard, PlayerCard whiteCard) {
 
-  private boolean isTie(List<Integer> blackPokerHands, List<Integer> whitePokerHands) {
-    for (int i = 0; i < blackPokerHands.size(); i++) {
-      if (!blackPokerHands.get(i).equals(whitePokerHands.get(i))) {
-        return false;
+    List<Integer> blackPokerhands = blackCard.getPokerHands();
+    List<Integer> whitePokerhands = whiteCard.getPokerHands();
+
+    for (int i = blackPokerhands.size() - 1; i >= 0; i--) {
+      int black = blackPokerhands.get(i);
+      int white = whitePokerhands.get(i);
+      if (black > white) {
+        return "black wins with high card " + pokerHandsSituation.get(blackPokerhands.get(i));
+      }
+      if (white > black) {
+        return "white wins with high card " + pokerHandsSituation.get(whitePokerhands.get(i));
       }
     }
-    return true;
+    return "Tie";
   }
 
-  private String calculateWinnerOfHighCard(List<Integer> blackPokerHands, List<Integer> whitePokerHands) {
-    if (blackPokerHands.get(0) == 1 && whitePokerHands.get(0) != 1) {
-      return " black wins with high card A";
-    }
-    if (whitePokerHands.get(0) == 1 && blackPokerHands.get(0) != 1) {
-      return "white wins with high card A";
-    }
-
-    for (int i = COUNT - 1; i >= 0; i--) {
-      if (blackPokerHands.get(i) > whitePokerHands.get(i)) {
-        for (String getkey : pokerHandsCard.keySet()) {
-          if (pokerHandsCard.get(getkey).equals(blackPokerHands.get(i))) {
-            return "black wins with high card " + getkey;
-          }
-        }
-      }
-      if (whitePokerHands.get(i) > blackPokerHands.get(i)) {
-        for (String getkey : pokerHandsCard.keySet()) {
-          if (pokerHandsCard.get(getkey).equals(whitePokerHands.get(i))) {
-            return "white wins with high card " + getkey;
-          }
-        }
-
-      }
-    }
+  private String calculateWinnerOfPair() {
     return null;
+
   }
 
-  private String calculateWinnerOfPair(List<Integer> blackPokerHands, List<Integer> whitePokerHands) {
-    int blackPairNum = 0;
-    int whitePairNum = 0;
-    for (int i = 0; i < blackPokerHands.size() - 1; i++) {
-      if (blackPokerHands.get(i).equals(blackPokerHands.get(i + 1))) {
-        blackPairNum = blackPokerHands.get(i);
-      }
-      if (whitePokerHands.get(i).equals(whitePokerHands.get(i + 1))) {
-        whitePairNum = whitePokerHands.get(i);
-      }
-    }
-    if (blackPairNum == whitePairNum) {
-      if (blackPairNum != 1) {
-        if (blackPokerHands.get(0) == 1 && whitePokerHands.get(0) != 1) {
-          return "black wins with pair of max num is A";
-        }
-        if (whitePokerHands.get(0) == 1 && blackPokerHands.get(0) != 1) {
-          return "white wins with pair of max num is A";
-        }
-      }
-      for (int i = COUNT - 1; i >= 0; i--) {
-        if (blackPokerHands.get(i) > whitePokerHands.get(i)) {
-          for (String getkey : pokerHandsCard.keySet()) {
-            if (pokerHandsCard.get(getkey).equals(blackPokerHands.get(i))) {
-              return "black wins with pair of max num is " + getkey;
-            }
-          }
-        }
-        if (whitePokerHands.get(i) > blackPokerHands.get(i)) {
-          for (String getkey : pokerHandsCard.keySet()) {
-            if (pokerHandsCard.get(getkey).equals(whitePokerHands.get(i))) {
-              return "white wins with pair of max num is " + getkey;
-            }
-          }
-        }
-      }
-      return null;
-    } else {
-      return blackPairNum > whitePairNum ? "black wins with pair of " + blackPairNum
-          : "white wins with pair of " + whitePairNum;
-    }
-  }
-
-  private String calculateWinnerOfTwoPairs(List<Integer> blackPokerHands, List<Integer> whitePokerHands) {
+  private String calculateWinnerOfTwoPairs(PlayerCard playerCard) {
     int blackFirstCp = 0;
     int blackSecondCp = 0;
     int whiteFirstCp = 0;
@@ -397,66 +246,58 @@ public class Demo {
   }
 
 
-  private void calculateScore(List<Integer> blackPokerHands, List<String> blackPokerColors,
-      List<Integer> whitePokerHands, List<String> whitePokerColors) {
-
-    blackCards.setScore(1);
-    whiteCards.setScore(1);
+  private void calculateScore(PlayerCard playerCard) {
 
     // pair
-    pairCalculate(blackPokerHands, whitePokerHands);
+    pairCalculate(playerCard);
 
     //two pair
-    twoPairCalculate(blackPokerHands, whitePokerHands);
+    twoPairCalculate(playerCard);
 
     //three of a kind
-    threeOfAKindCalculate(blackPokerHands, whitePokerHands);
+    threeOfAKindCalculate(playerCard);
 
     //Straight
-    straightCalculate(blackPokerHands, whitePokerHands);
+    straightCalculate(playerCard);
 
     //flush
-    flushCalculate(blackPokerColors, whitePokerColors);
+    flushCalculate(playerCard);
 
     //Full House
-    fullHouseCalculate(blackPokerHands, whitePokerHands);
+    fullHouseCalculate(playerCard);
 
     //four of a kind
-    fourOfKindCalculate(blackPokerHands, whitePokerHands);
+    fourOfKindCalculate(playerCard);
 
     //Straight and flush
-    straightAndFlushCalculate();
+    straightAndFlushCalculate(playerCard);
 
   }
 
 
   public String calculateWinner(String black, String white) {
 
-    blackCards = new PlayerCard();
-    whiteCards = new PlayerCard();
+    PlayerCard blackCards = new PlayerCard();
+    PlayerCard whiteCards = new PlayerCard();
 
-    separateCardsAndSuits(black, white);
+    separateCardsAndSuits(black, blackCards);
+    separateCardsAndSuits(white, whiteCards);
 
-    calculateScore(blackPokerHands, blackPokerColor, whitePokerHands, whitePokerColor);
+    calculateScore(blackCards);
+    calculateScore(whiteCards);
 
-    if (isTie(blackPokerHands, whitePokerHands)) {
-      return "Tie";
-    }
-
-//        if (blackCards.getScore().equals(whiteCards.getScore())) {
-//            if (blackCards.getScore() == 1) {
-//                return calculateWinnerOfHighCard(blackPokerHands, whitePokerHands);
-//            }
-//            if (blackCards.getScore() == 2) {
-//                return calculateWinnerOfPair(blackPokerHands, whitePokerHands);
-//            }
+    if (blackCards.getScore().equals(whiteCards.getScore())) {
+      if (blackCards.getScore() == 1) {
+        System.out.println( calculateWinnerOfHighCard(blackCards, whiteCards));
+        return calculateWinnerOfHighCard(blackCards, whiteCards);
+      }
+//      if (blackCards.getScore() == 2) {
+//        return calculateWinnerOfPair();
+//      }
 //            if (blackCards.getScore() == 3) {
 //                return calculateWinnerOfTwoPairs(blackPokerHands, whitePokerHands);
 //            }
-//        }
-
-    System.out.println("black : " + blackCards.getScore());
-    System.out.println("white : " + whiteCards.getScore());
+    }
 
     if (blackCards.getScore() < whiteCards.getScore()) {
       return "white wins " + whiteCards.getType();
@@ -469,7 +310,7 @@ public class Demo {
   public static void main(String[] args) {
     Demo demo = new Demo();
 
-    demo.calculateWinner("4S 5S 6S 7S 9S", "3H 3D 3S 3C KH");
+    demo.calculateWinner("2S 3H 5C 9D KS", "2H 6D 8S 7C AH");
   }
 
 }

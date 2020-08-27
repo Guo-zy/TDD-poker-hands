@@ -1,12 +1,18 @@
 package com.example;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class PlayerCard {
 
+  private static final Integer COUNT = 5;
   protected Integer score;
   protected String Type;
   protected String particularNums;
   protected String originNums;
   protected String colors;
+  protected List<Integer> pokerHands;
+  protected List<String> pokerColors;
   protected boolean isStraightAndFlush;
 
   public boolean isStraightAndFlush() {
@@ -14,6 +20,31 @@ public class PlayerCard {
   }
 
 
+  public PlayerCard() {
+    score = 1;
+    pokerHands = new ArrayList<>(COUNT);
+    pokerColors = new ArrayList<>(COUNT);
+    isStraightAndFlush = false;
+    originNums="";
+    colors="";
+
+  }
+
+  public List<Integer> getPokerHands() {
+    return pokerHands;
+  }
+
+  public void setPokerHands(List<Integer> pokerHands) {
+    this.pokerHands = pokerHands;
+  }
+
+  public List<String> getPokerColors() {
+    return pokerColors;
+  }
+
+  public void setPokerColors(List<String> pokerColors) {
+    this.pokerColors = pokerColors;
+  }
 
   public void setStraightAndFlush(boolean straightAndFlush) {
     isStraightAndFlush = straightAndFlush;
