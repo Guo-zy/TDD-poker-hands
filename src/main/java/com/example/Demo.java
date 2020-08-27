@@ -232,8 +232,28 @@ public class Demo {
     return "Tie";
   }
 
-  private String calculateWinnerOfPair() {
-    return null;
+  private String calculateWinnerOfPair(PlayerCard blackCard, PlayerCard whiteCard) {
+    List<Integer> blackPokerhands = blackCard.getPokerHands();
+    List<Integer> whitePokerhands = whiteCard.getPokerHands();
+
+    if (blackCard.getParticularNums().compareTo(whiteCard.getParticularNums()) > 0) {
+      return "black wins with pair of " + blackCard.getParticularNums();
+    }
+    if (whiteCard.getParticularNums().compareTo(blackCard.getParticularNums()) > 0) {
+      return "white wins with pair of " + whiteCard.getParticularNums();
+    }
+
+    for (int i = blackPokerhands.size() - 1; i >= 0; i--) {
+      int black = blackPokerhands.get(i);
+      int white = whitePokerhands.get(i);
+      if (black > white) {
+        return "black wins with pair of max num is " + pokerHandsSituation.get(blackPokerhands.get(i));
+      }
+      if (white > black) {
+        return "white wins with pair of max num is " + pokerHandsSituation.get(whitePokerhands.get(i));
+      }
+    }
+    return "Tie";
 
   }
 
@@ -291,9 +311,9 @@ public class Demo {
         System.out.println( calculateWinnerOfHighCard(blackCards, whiteCards));
         return calculateWinnerOfHighCard(blackCards, whiteCards);
       }
-//      if (blackCards.getScore() == 2) {
-//        return calculateWinnerOfPair();
-//      }
+      if (blackCards.getScore() == 2) {
+        return calculateWinnerOfPair(blackCards, whiteCards);
+      }
 //            if (blackCards.getScore() == 3) {
 //                return calculateWinnerOfTwoPairs(blackPokerHands, whitePokerHands);
 //            }
