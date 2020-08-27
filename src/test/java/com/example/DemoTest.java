@@ -828,6 +828,45 @@ public class DemoTest {
     Assertions.assertEquals("Tie", res);
   }
 
+  @Test
+  public void should_return_white_wins_with_full_house_of_222AA_when_calculate_winner_given_black_with_55599_and_white_with_222AA() {
+    //given
+    String black = "5D 5C 5D 9S 9C";
+    String white = "2S 2C 2D AS AH";
+
+    //when
+    String res = demo.calculateWinner(black, white);
+
+    //then
+    Assertions.assertEquals("black wins with full house of 5 over 9", res);
+  }
+
+  @Test
+  public void should_return_white_wins_with_full_house_of_AAA22_when_calculate_winner_given_black_with_44455_and_white_with_AAA22() {
+    //given
+    String black = "4D 4C 4D 5S 5C";
+    String white = "AS AC AD 2S 2H";
+
+    //when
+    String res = demo.calculateWinner(black, white);
+
+    //then
+    Assertions.assertEquals("white wins with full house of A over 2", res);
+  }
+
+  @Test
+  public void should_return_white_wins_with_full_house_of_444AA_when_calculate_winner_given_black_with_44455_and_white_with_TTTKK() {
+    //given
+    String black = "4D 4C 4D 5S 5C";
+    String white = "TS TC TD KS KH";
+
+    //when
+    String res = demo.calculateWinner(black, white);
+
+    //then
+    Assertions.assertEquals("white wins with full house of T over K", res);
+  }
+
 }
 
 

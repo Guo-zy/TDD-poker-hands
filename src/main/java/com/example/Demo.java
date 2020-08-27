@@ -350,6 +350,13 @@ public class Demo {
 
   }
 
+  private String calculateFullHouse(PlayerCard blackCard, PlayerCard whiteCard) {
+    if (pokerHandsCard.get(blackCard.getParticularNums().substring(0, 1)) > pokerHandsCard.get(whiteCard.getParticularNums().substring(0, 1))) {
+      return "black wins with full house of "+blackCard.getParticularNums().substring(0, 1)+" over "+ blackCard.getParticularNums().substring(1, 2);
+    }
+    return "white wins with full house of "+whiteCard.getParticularNums().substring(0, 1)+" over "+ whiteCard.getParticularNums().substring(1, 2);
+  }
+
 
   private void calculateScore(PlayerCard playerCard) {
 
@@ -411,6 +418,9 @@ public class Demo {
       if (blackCards.getScore() == 6) {
         return calculateFlush(blackCards, whiteCards);
       }
+      if (blackCards.getScore() == 7) {
+        return calculateFullHouse(blackCards, whiteCards);
+      }
     }
 
     if (blackCards.getScore() < whiteCards.getScore()) {
@@ -424,7 +434,7 @@ public class Demo {
   public static void main(String[] args) {
     Demo demo = new Demo();
 
-    demo.calculateWinner("2C 3C 6C 7C 9C", "2S 5S 6S 9S TS");
+    demo.calculateWinner("5D 5C 5D 9S 9C", "2S 2C 2D AS AH");
   }
 
 }
