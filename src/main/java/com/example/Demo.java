@@ -1,5 +1,7 @@
 package com.example;
 
+import com.sun.security.jgss.GSSUtil;
+
 import java.lang.reflect.Array;
 import java.util.*;
 import java.util.concurrent.CountDownLatch;
@@ -161,6 +163,7 @@ public class Demo {
     if (Hset.size() == 1) {
       if (playerCard.getScore() == 5) {
         playerCard.setStraightAndFlush(true);
+        playerCard.setOriginNums(playerCard.getParticularNums());
       }
       playerCard.setScore(score);
       playerCard.setType("with flush of " + playerCard.getOriginNums() + " with " + pokerColors.get(0));
@@ -367,6 +370,24 @@ public class Demo {
     return "white wins with four of a kind of " + whiteCard.getParticularNums();
   }
 
+  private String calculateFlushAndStraight(PlayerCard blackCard,PlayerCard whiteCard) {
+    List<Integer> blackPokerhands = blackCard.getPokerHands();
+    List<Integer> whitePokerhands = whiteCard.getPokerHands();
+
+    if (blackPokerhands.contains(14) && blackPokerhands.contains(2) && blackPokerhands.get(4) > whitePokerhands
+        .get(4)) {
+      return "white wins with straight of " + whiteCard.getParticularNums().substring(0,5) + " with " + whiteCard.getPokerColors().get(0);
+    }
+    if (whitePokerhands.contains(14) && whitePokerhands.contains(2) && whitePokerhands.get(4) > blackPokerhands
+        .get(4)) {
+      return "black wins with straight of " + blackCard.getParticularNums().substring(0,5) + " with " + whiteCard.getPokerColors().get(0);
+    }
+    if (pokerHandsCard.get(blackCard.getParticularNums().substring(4,5)) > pokerHandsCard
+        .get(whiteCard.getParticularNums().substring(4,5))) {
+      return "black wins with straight of " + blackCard.getParticularNums().substring(0,5) + " with " + whiteCard.getPokerColors().get(0);
+    }
+    return "white wins with straight of " + whiteCard.getParticularNums().substring(0,5) + " with " + whiteCard.getPokerColors().get(0);
+  }
 
   private void calculateScore(PlayerCard playerCard) {
 
@@ -395,7 +416,6 @@ public class Demo {
     straightAndFlushCalculate(playerCard);
 
   }
-
 
   public String calculateWinner(String black, String white) {
 
@@ -434,6 +454,7 @@ public class Demo {
       if (blackCards.getScore() == 8) {
         return calculateFourKinds(blackCards, whiteCards);
       }
+      return calculateFlushAndStraight(blackCards, whiteCards);
     }
 
     if (blackCards.getScore() < whiteCards.getScore()) {
@@ -447,7 +468,7 @@ public class Demo {
   public static void main(String[] args) {
     Demo demo = new Demo();
 
-    demo.calculateWinner("5D 5C 5D 9S 9C", "2S 2C 2D AS AH");
+    demo.calculateWinner("AC 2C 3C 4C 5C", "TH JH QH KH AH");
   }
 
 }
