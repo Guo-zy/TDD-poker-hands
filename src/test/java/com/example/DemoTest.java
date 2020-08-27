@@ -776,6 +776,58 @@ public class DemoTest {
     Assertions.assertEquals("white wins with straight of 23456", res);
   }
 
+  @Test
+  public void should_return_white_wins_with_flush_of_2569T_with_S_when_calculate_winner_given_black_with_23679_and_white_with_2569T() {
+    //given
+    String black = "2C 3C 6C 7C 9C";
+    String white = "2S 5S 6S 9S TS";
+
+    //when
+    String res = demo.calculateWinner(black, white);
+
+    //then
+    Assertions.assertEquals("white wins with flush of 2569T with S", res);
+  }
+
+  @Test
+  public void should_return_white_wins_with_flush_of_2569A_with_S_when_calculate_winner_given_black_with_2367J_and_white_with_2569A() {
+    //given
+    String black = "2C 3C 6C 7C JC";
+    String white = "2S 5S 6S 9S AS";
+
+    //when
+    String res = demo.calculateWinner(black, white);
+
+    //then
+    Assertions.assertEquals("white wins with flush of 2569A with S", res);
+  }
+
+  @Test
+  public void should_return_white_wins_with_flush_of_256AT_with_S_when_calculate_winner_given_black_with_2567A_and_white_with_256AT() {
+    //given
+    String black = "2C 5C 6C 7C AC";
+    String white = "2S 5S 6S AS TS";
+
+    //when
+    String res = demo.calculateWinner(black, white);
+
+    //then
+    Assertions.assertEquals("white wins with flush of 256AT with S", res);
+  }
+
+  @Test
+  public void should_return_Tie_with_S_when_calculate_winner_given_black_with_2567A_and_white_with_2567T() {
+    //given
+    String black = "2C 5C 6C 7C AC";
+    String white = "2S 5S 6S 7S AS";
+
+    //when
+    String res = demo.calculateWinner(black, white);
+
+    //then
+    Assertions.assertEquals("Tie", res);
+  }
+
 }
 
 

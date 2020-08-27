@@ -314,17 +314,42 @@ public class Demo {
     List<Integer> blackPokerhands = blackCard.getPokerHands();
     List<Integer> whitePokerhands = whiteCard.getPokerHands();
 
-    if (blackPokerhands.contains(14) && blackPokerhands.contains(2) && blackPokerhands.get(4) > whitePokerhands.get(4)) {
+    if (blackPokerhands.contains(14) && blackPokerhands.contains(2) && blackPokerhands.get(4) > whitePokerhands
+        .get(4)) {
       return "white wins with straight of " + whiteCard.getParticularNums();
     }
-    if (whitePokerhands.contains(14) && whitePokerhands.contains(2) && whitePokerhands.get(4) > blackPokerhands.get(4)) {
+    if (whitePokerhands.contains(14) && whitePokerhands.contains(2) && whitePokerhands.get(4) > blackPokerhands
+        .get(4)) {
       return "black wins with straight of " + blackCard.getParticularNums();
     }
-    if (pokerHandsCard.get(blackCard.getParticularNums().substring(4)) > pokerHandsCard.get(whiteCard.getParticularNums().substring(4))) {
+    if (pokerHandsCard.get(blackCard.getParticularNums().substring(4)) > pokerHandsCard
+        .get(whiteCard.getParticularNums().substring(4))) {
       return "black wins with straight of " + blackCard.getParticularNums();
     }
     return "white wins with straight of " + whiteCard.getParticularNums();
   }
+
+  private String calculateFlush(PlayerCard blackCard, PlayerCard whiteCard) {
+    List<Integer> blackPokerhands = blackCard.getPokerHands();
+    List<Integer> whitePokerhands = whiteCard.getPokerHands();
+
+    for (int i = blackCard.getPokerHands().size() - 1; i > 0; i--) {
+      if (whitePokerhands.get(i) > blackPokerhands.get(i)) {
+        return "white wins with flush of " + whiteCard.getParticularNums().substring(0, 5) + " with " + whiteCard
+            .getPokerColors()
+            .get(0);
+      }
+      if (blackPokerhands.get(i) > whitePokerhands.get(i)) {
+        return "black wins with flush of " + blackCard.getParticularNums().substring(0, 5) + " with " + blackCard
+            .getPokerColors()
+            .get(0);
+      }
+
+    }
+    return "Tie";
+
+  }
+
 
   private void calculateScore(PlayerCard playerCard) {
 
@@ -383,6 +408,9 @@ public class Demo {
       if (blackCards.getScore() == 5) {
         return calculateStraight(blackCards, whiteCards);
       }
+      if (blackCards.getScore() == 6) {
+        return calculateFlush(blackCards, whiteCards);
+      }
     }
 
     if (blackCards.getScore() < whiteCards.getScore()) {
@@ -396,7 +424,7 @@ public class Demo {
   public static void main(String[] args) {
     Demo demo = new Demo();
 
-    demo.calculateWinner("AC 2D 3S 4C 5H", "2S 3H 4D 5D 6S");
+    demo.calculateWinner("2C 3C 6C 7C 9C", "2S 5S 6S 9S TS");
   }
 
 }
