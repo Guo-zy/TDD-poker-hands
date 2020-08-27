@@ -303,9 +303,27 @@ public class Demo {
   private String calculateWinnerThreeOfAKind(PlayerCard blackCard, PlayerCard whiteCard) {
 
     if (Integer.parseInt(blackCard.getParticularNums()) > Integer.parseInt(whiteCard.getParticularNums())) {
-      return "black wins with three of a kind of " +pokerHandsSituation.get(Integer.parseInt(blackCard.getParticularNums()));
+      return "black wins with three of a kind of " + pokerHandsSituation
+          .get(Integer.parseInt(blackCard.getParticularNums()));
     }
-    return "white wins with three of a kind of " + pokerHandsSituation.get(Integer.parseInt(whiteCard.getParticularNums()));
+    return "white wins with three of a kind of " + pokerHandsSituation
+        .get(Integer.parseInt(whiteCard.getParticularNums()));
+  }
+
+  private String calculateStraight(PlayerCard blackCard, PlayerCard whiteCard) {
+    List<Integer> blackPokerhands = blackCard.getPokerHands();
+    List<Integer> whitePokerhands = whiteCard.getPokerHands();
+
+    if (blackPokerhands.contains(14) && blackPokerhands.contains(2) && blackPokerhands.get(4) > whitePokerhands.get(4)) {
+      return "white wins with straight of " + whiteCard.getParticularNums();
+    }
+    if (whitePokerhands.contains(14) && whitePokerhands.contains(2) && whitePokerhands.get(4) > blackPokerhands.get(4)) {
+      return "black wins with straight of " + blackCard.getParticularNums();
+    }
+    if (pokerHandsCard.get(blackCard.getParticularNums().substring(4)) > pokerHandsCard.get(whiteCard.getParticularNums().substring(4))) {
+      return "black wins with straight of " + blackCard.getParticularNums();
+    }
+    return "white wins with straight of " + whiteCard.getParticularNums();
   }
 
   private void calculateScore(PlayerCard playerCard) {
@@ -362,6 +380,9 @@ public class Demo {
       if (blackCards.getScore() == 4) {
         return calculateWinnerThreeOfAKind(blackCards, whiteCards);
       }
+      if (blackCards.getScore() == 5) {
+        return calculateStraight(blackCards, whiteCards);
+      }
     }
 
     if (blackCards.getScore() < whiteCards.getScore()) {
@@ -375,7 +396,7 @@ public class Demo {
   public static void main(String[] args) {
     Demo demo = new Demo();
 
-    demo.calculateWinner("3S 3H 3C 5D 9S", "QC QD QS 8C 9H");
+    demo.calculateWinner("AC 2D 3S 4C 5H", "2S 3H 4D 5D 6S");
   }
 
 }

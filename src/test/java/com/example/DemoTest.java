@@ -724,6 +724,57 @@ public class DemoTest {
     Assertions.assertEquals("white wins with three of a kind of T", res);
   }
 
+  @Test
+  public void should_return_white_wins_with_straight_TJQKA_of_when_calculate_winner_given_black_with_9TJQK_and_white_with_TJQKA() {
+    //given
+    String black = "9C TD JS QC KH";
+    String white = "TS JH QC KD AS";
+
+    //when
+    String res = demo.calculateWinner(black, white);
+
+    //then
+    Assertions.assertEquals("white wins with straight of TJQKA", res);
+  }
+
+  @Test
+  public void should_return_white_wins_with_straight_TJQKA_of_when_calculate_winner_given_black_with_A2345_and_white_with_TJQKA() {
+    //given
+    String black = "AC 2D 3S 4C 5H";
+    String white = "TS JH QC KD AS";
+
+    //when
+    String res = demo.calculateWinner(black, white);
+
+    //then
+    Assertions.assertEquals("white wins with straight of TJQKA", res);
+  }
+
+  @Test
+  public void should_return_white_wins_with_straight_9TJQK_of_when_calculate_winner_given_black_with_A2345_and_white_with_9TJQK() {
+    //given
+    String black = "AC 2D 3S 4C 5H";
+    String white = "TS JH QC KD 9S";
+
+    //when
+    String res = demo.calculateWinner(black, white);
+
+    //then
+    Assertions.assertEquals("white wins with straight of 9TJQK", res);
+  }
+
+  @Test
+  public void should_return_white_wins_with_straight_23456_of_when_calculate_winner_given_black_with_A2345_and_white_with_23456() {
+    //given
+    String black = "AC 2D 3S 4C 5H";
+    String white = "2S 3H 4D 5D 6S";
+
+    //when
+    String res = demo.calculateWinner(black, white);
+
+    //then
+    Assertions.assertEquals("white wins with straight of 23456", res);
+  }
 
 }
 
