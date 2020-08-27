@@ -260,7 +260,35 @@ public class Demo {
   private String calculateWinnerOfTwoPairs(PlayerCard blackCard, PlayerCard whiteCard) {
     List<Integer> blackPokerhands = blackCard.getPokerHands();
     List<Integer> whitePokerhands = whiteCard.getPokerHands();
-    return null;
+
+    int blackPairFirst = pokerHandsCard.get(blackCard.getParticularNums().substring(0,1));
+    int blackPairSecond = pokerHandsCard.get(blackCard.getParticularNums().substring(1));
+    int blackOtherNum = blackPokerhands.stream().filter((num) -> num != blackPairFirst && num != blackPairSecond).findFirst().get();
+
+    int whitePairFirst = pokerHandsCard.get(whiteCard.getParticularNums().substring(0,1));
+    int whitePairSecond = pokerHandsCard.get(whiteCard.getParticularNums().substring(1));
+    int whiteOtherNum = whitePokerhands.stream().filter((num) -> num != whitePairFirst && num != whitePairSecond).findFirst().get();
+
+    if (blackPairSecond > whitePairSecond) {
+      return "black wins with two pairs of " + pokerHandsSituation.get(blackPairFirst) + " and " + pokerHandsSituation.get(blackPairSecond);
+    }
+    if (whitePairSecond > blackPairSecond) {
+      return "white wins with two pairs of " + pokerHandsSituation.get(whitePairFirst) + " and " + pokerHandsSituation.get(whitePairSecond);
+    }
+    if (blackPairFirst > whitePairFirst) {
+      return "black wins with two pairs of " + pokerHandsSituation.get(blackPairFirst) + " and " + pokerHandsSituation.get(blackPairSecond);
+    }
+    if (whitePairFirst > blackPairFirst) {
+      return "white wins with two pairs of " + pokerHandsSituation.get(whitePairFirst) + " and " + pokerHandsSituation.get(whitePairSecond);
+    }
+    if (blackOtherNum > whiteOtherNum) {
+      return "black wins with two pairs of " + pokerHandsSituation.get(blackPairFirst) + " and " + pokerHandsSituation.get(blackPairSecond);
+    }
+    if (whiteOtherNum > blackOtherNum) {
+      return "white wins with two pairs of " + pokerHandsSituation.get(whitePairFirst) + " and " + pokerHandsSituation.get(whitePairSecond);
+    }
+
+    return "Tie";
   }
 
 
@@ -328,7 +356,7 @@ public class Demo {
   public static void main(String[] args) {
     Demo demo = new Demo();
 
-    demo.calculateWinner("2S 3H 5C 9D KS", "2H 6D 8S 7C AH");
+    demo.calculateWinner("2S 5H 5C KD KS", "2H 2D 7S 7C AH");
   }
 
 }

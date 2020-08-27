@@ -635,16 +635,16 @@ public class DemoTest {
   }
 
   @Test
-  public void should_return_white_wins_with_two_pairs_with_226KK_when_calculate_winner_given_black_with_226KK_and_white_with_556KK() {
+  public void should_return_white_wins_with_two_pairs_with_JJ6KK_when_calculate_winner_given_black_with_JJ6KK_and_white_with_QQ6KK() {
     //given
-    String black = "2S 2H 6C KD KS";
-    String white = "5C 5D 6S KH KH";
+    String black = "JS JH 6C KD KS";
+    String white = "QC QD 6S KC KH";
 
     //when
     String res = demo.calculateWinner(black, white);
 
     //then
-    Assertions.assertEquals("white wins with two pairs of 5 and K", res);
+    Assertions.assertEquals("white wins with two pairs of Q and K", res);
   }
 }
 
